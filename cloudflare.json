@@ -1,0 +1,22 @@
+{
+  "name": "rochesterdeckpros",
+  "routes": [
+    { "pattern": "dev.rochesterdeckpros.com", "zone_id": "YOUR_ZONE_ID" }
+  ],
+  "build": {
+    "command": "npm run build",
+    "output_directory": "out",
+    "root_directory": "."
+  },
+  "deployment": {
+    "environment": {
+      "NODE_ENV": "production"
+    }
+  },
+  "workers": [
+    {
+      "name": "rochesterdeckpros-worker",
+      "entry_point": "_worker.js"
+    }
+  ]
+} 

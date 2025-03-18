@@ -1,0 +1,12 @@
+{
+  "buildConfig": {
+    "staticFolder": "/out",
+    "outputFolder": "/out",
+    "buildCommand": "npm run build"
+  },
+  "functions": {
+    "**/*": {
+      "runtime": "nodejs/v18"
+    }
+  }
+} 
