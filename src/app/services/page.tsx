@@ -19,7 +19,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import MainLayout from "@/components/MainLayout";
-import { MdDeck, MdDesignServices, MdConstruction } from "react-icons/md";
+import { MdDesignServices, MdConstruction } from "react-icons/md";
 import { 
   FaTools, 
   FaRegCheckCircle, 
@@ -45,14 +45,19 @@ export default function ServicesPage() {
 }
 
 function PageHeader() {
+  const bgColor = useColorModeValue("gray.100", "gray.900");
+  const headerGradient = useColorModeValue(
+    "linear(to-b, white, gray.100)",
+    "linear(to-b, gray.800, rochester.black)"
+  );
+  const headingColor = useColorModeValue("gray.800", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+
   return (
     <Box
-      bg={useColorModeValue("gray.100", "gray.900")}
+      bg={bgColor}
       py={20}
-      bgGradient={useColorModeValue(
-        "linear(to-b, white, gray.100)",
-        "linear(to-b, gray.800, rochester.black)"
-      )}
+      bgGradient={headerGradient}
     >
       <Container maxW="container.xl">
         <VStack spacing={6} textAlign="center" maxW="800px" mx="auto">
@@ -60,16 +65,16 @@ function PageHeader() {
             as="h1" 
             size="2xl" 
             fontWeight="bold"
-            color={useColorModeValue("gray.800", "white")}
+            color={headingColor}
           >
             Our Decking Services
           </Heading>
           <Text
             fontSize="xl"
-            color={useColorModeValue("gray.600", "gray.300")}
+            color={textColor}
           >
             From custom design to expert installation, we provide comprehensive deck building 
-            services tailored to Rochester's unique climate and your specific needs.
+            services tailored to Rochester&apos;s unique climate and your specific needs.
           </Text>
         </VStack>
       </Container>
@@ -170,6 +175,10 @@ function MainServices() {
   const borderColor = useColorModeValue("gray.200", "rochester.gray");
   const boxBg = useColorModeValue("white", "rochester.black");
   const accentBg = useColorModeValue("gray.50", "rochester.gray");
+  const headingColor = useColorModeValue("gray.700", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const listItemColor = useColorModeValue("gray.700", "gray.200");
+  const additionalHeadingColor = useColorModeValue("gray.700", "white");
 
   return (
     <Box py={16}>
@@ -209,11 +218,11 @@ function MainServices() {
                     as="h3"
                     size="lg"
                     mb={2}
-                    color={useColorModeValue("gray.700", "white")}
+                    color={headingColor}
                   >
                     {service.title}
                   </Heading>
-                  <Text color={useColorModeValue("gray.600", "gray.300")}>
+                  <Text color={textColor}>
                     {service.description}
                   </Text>
                 </Box>
@@ -225,7 +234,7 @@ function MainServices() {
                 {service.features.map((feature, index) => (
                   <HStack key={index} align="center" spacing={3}>
                     <Icon as={FaRegCheckCircle} color="primary.500" />
-                    <Text color={useColorModeValue("gray.700", "gray.200")}>
+                    <Text color={listItemColor}>
                       {feature}
                     </Text>
                   </HStack>
@@ -241,7 +250,7 @@ function MainServices() {
             size="xl"
             textAlign="center"
             mb={12}
-            color={useColorModeValue("gray.700", "white")}
+            color={additionalHeadingColor}
           >
             Additional Services
           </Heading>
@@ -278,11 +287,11 @@ function MainServices() {
                   as="h3"
                   size="md"
                   mb={3}
-                  color={useColorModeValue("gray.700", "white")}
+                  color={headingColor}
                 >
                   {feature.title}
                 </Heading>
-                <Text color={useColorModeValue("gray.600", "gray.300")}>
+                <Text color={textColor}>
                   {feature.text}
                 </Text>
               </Box>
@@ -323,6 +332,11 @@ function ProcessSection() {
   ];
 
   const bgColor = useColorModeValue("gray.50", "gray.900");
+  const boxBg = useColorModeValue("white", "rochester.black");
+  const headingColor = useColorModeValue("gray.700", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const stepHeadingColor = useColorModeValue("gray.700", "white");
+  const stepTextColor = useColorModeValue("gray.600", "gray.300");
 
   return (
     <Box py={16} bg={bgColor}>
@@ -333,13 +347,13 @@ function ProcessSection() {
               as="h2"
               size="xl"
               fontWeight="bold"
-              color={useColorModeValue("gray.700", "white")}
+              color={headingColor}
             >
               Our Process
             </Heading>
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
               We follow a comprehensive, step-by-step approach to ensure your deck project
               is completed efficiently, beautifully, and to the highest standards.
@@ -352,7 +366,7 @@ function ProcessSection() {
                 <Box
                   key={index}
                   p={6}
-                  bg={useColorModeValue("white", "rochester.black")}
+                  bg={boxBg}
                   borderRadius="lg"
                   boxShadow="md"
                   position="relative"
@@ -383,12 +397,12 @@ function ProcessSection() {
                     <Heading
                       as="h3"
                       size="md"
-                      color={useColorModeValue("gray.700", "white")}
+                      color={stepHeadingColor}
                     >
                       {step.title}
                     </Heading>
                   </Flex>
-                  <Text color={useColorModeValue("gray.600", "gray.300")}>
+                  <Text color={stepTextColor}>
                     {step.description}
                   </Text>
                 </Box>
@@ -429,6 +443,13 @@ function FAQSection() {
     }
   ];
 
+  const headingColor = useColorModeValue("gray.700", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const itemBgColor = useColorModeValue("white", "rochester.black");
+  const itemBorderColor = useColorModeValue("gray.200", "rochester.gray");
+  const expandedBgColor = useColorModeValue("gray.50", "rochester.gray");
+  const answerColor = useColorModeValue("gray.600", "gray.300");
+
   return (
     <Box py={16}>
       <Container maxW="container.xl">
@@ -438,13 +459,13 @@ function FAQSection() {
               as="h2"
               size="xl"
               fontWeight="bold"
-              color={useColorModeValue("gray.700", "white")}
+              color={headingColor}
             >
               Frequently Asked Questions
             </Heading>
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
               Get answers to common questions about our deck building services and process.
             </Text>
@@ -455,16 +476,16 @@ function FAQSection() {
               <AccordionItem
                 key={index}
                 border="1px solid"
-                borderColor={useColorModeValue("gray.200", "rochester.gray")}
+                borderColor={itemBorderColor}
                 borderRadius="md"
                 mb={4}
-                bg={useColorModeValue("white", "rochester.black")}
+                bg={itemBgColor}
               >
                 <h2>
                   <AccordionButton
                     py={4}
                     _expanded={{
-                      bg: useColorModeValue("gray.50", "rochester.gray"),
+                      bg: expandedBgColor,
                     }}
                   >
                     <Box flex="1" textAlign="left" fontWeight="semibold">
@@ -473,7 +494,7 @@ function FAQSection() {
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                <AccordionPanel pb={4} color={useColorModeValue("gray.600", "gray.300")}>
+                <AccordionPanel pb={4} color={answerColor}>
                   {faq.answer}
                 </AccordionPanel>
               </AccordionItem>

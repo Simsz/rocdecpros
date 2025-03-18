@@ -1,7 +1,22 @@
 import "@/app/globals.css";
 import { Provider } from "@/components/ui/provider";
-import theme from "@/theme";
 import { Metadata } from "next";
+import { Inter, Montserrat } from "next/font/google";
+
+// Load Inter font
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
+});
+
+// Load Montserrat font
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "Rochester Deck Pros | Premium Deck Building in Rochester, NY",
@@ -14,10 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" suppressHydrationWarning className={`${inter.className} ${montserrat.variable}`}>
       <body>
         <Provider>{children}</Provider>
       </body>

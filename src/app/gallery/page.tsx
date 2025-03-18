@@ -163,14 +163,18 @@ export default function GalleryPage() {
 }
 
 function PageHeader() {
+  const headerBgGradient = useColorModeValue(
+    "linear(to-b, white, gray.100)",
+    "linear(to-b, gray.800, rochester.black)"
+  );
+  const textColor = useColorModeValue("gray.800", "white");
+  const subtitleColor = useColorModeValue("gray.600", "gray.300");
+
   return (
     <Box
       bg={useColorModeValue("gray.100", "gray.900")}
       py={20}
-      bgGradient={useColorModeValue(
-        "linear(to-b, white, gray.100)",
-        "linear(to-b, gray.800, rochester.black)"
-      )}
+      bgGradient={headerBgGradient}
     >
       <Container maxW="container.xl">
         <VStack spacing={6} textAlign="center" maxW="800px" mx="auto">
@@ -178,13 +182,13 @@ function PageHeader() {
             as="h1" 
             size="2xl" 
             fontWeight="bold"
-            color={useColorModeValue("gray.800", "white")}
+            color={textColor}
           >
             Our Project Gallery
           </Heading>
           <Text
             fontSize="xl"
-            color={useColorModeValue("gray.600", "gray.300")}
+            color={subtitleColor}
           >
             Browse our portfolio of beautiful custom decks designed and built for homeowners
             throughout the Rochester, NY area.
@@ -202,8 +206,10 @@ interface CategoryFilterProps {
 }
 
 function CategoryFilter({ categories, activeCategory, setActiveCategory }: CategoryFilterProps) {
+  const bgColor = useColorModeValue("white", "rochester.black");
+  
   return (
-    <Box py={8} bg={useColorModeValue("white", "rochester.black")}>
+    <Box py={8} bg={bgColor}>
       <Container maxW="container.xl">
         <Flex 
           justify="center" 
@@ -234,8 +240,15 @@ interface GalleryGridProps {
 }
 
 function GalleryGrid({ projects }: GalleryGridProps) {
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const cardBgColor = useColorModeValue("white", "rochester.black");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const tagBgColor = useColorModeValue("gray.100", "rochester.gray");
+  const tagTextColor = useColorModeValue("gray.700", "gray.200");
+
   return (
-    <Box py={12} bg={useColorModeValue("gray.50", "gray.900")}>
+    <Box py={12} bg={bgColor}>
       <Container maxW="container.xl">
         {projects.length === 0 ? (
           <Box textAlign="center" py={10}>
@@ -254,7 +267,7 @@ function GalleryGrid({ projects }: GalleryGridProps) {
                 key={project.id}
                 borderRadius="lg"
                 overflow="hidden"
-                bg={useColorModeValue("white", "rochester.black")}
+                bg={cardBgColor}
                 boxShadow="md"
                 transition="all 0.3s"
                 _hover={{
@@ -274,7 +287,7 @@ function GalleryGrid({ projects }: GalleryGridProps) {
                     as="h3"
                     size="md"
                     mb={2}
-                    color={useColorModeValue("gray.800", "white")}
+                    color={headingColor}
                   >
                     <LinkOverlay href="#">
                       {project.title}
@@ -286,7 +299,7 @@ function GalleryGrid({ projects }: GalleryGridProps) {
                   </Text>
                   
                   <Text
-                    color={useColorModeValue("gray.600", "gray.300")}
+                    color={textColor}
                     mb={4}
                     noOfLines={2}
                   >
@@ -298,8 +311,8 @@ function GalleryGrid({ projects }: GalleryGridProps) {
                       <Tag
                         key={tag}
                         size="sm"
-                        bg={useColorModeValue("gray.100", "rochester.gray")}
-                        color={useColorModeValue("gray.700", "gray.200")}
+                        bg={tagBgColor}
+                        color={tagTextColor}
                       >
                         {tag}
                       </Tag>
@@ -316,6 +329,14 @@ function GalleryGrid({ projects }: GalleryGridProps) {
 }
 
 function TestimonialSection() {
+  const bgColor = useColorModeValue("white", "rochester.black");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const cardBgColor = useColorModeValue("gray.50", "rochester.gray");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const quoteSymbolBgColor = useColorModeValue("white", "rochester.black");
+  const authorColor = useColorModeValue("gray.800", "white");
+  const locationColor = useColorModeValue("gray.600", "gray.400");
+
   const testimonials = [
     {
       quote: "Rochester Deck Pros transformed our backyard with a beautiful cedar deck that perfectly complements our home. Their attention to detail and craftsmanship exceeded our expectations.",
@@ -337,7 +358,7 @@ function TestimonialSection() {
   return (
     <Box 
       py={16} 
-      bg={useColorModeValue("white", "rochester.black")}
+      bg={bgColor}
     >
       <Container maxW="container.xl">
         <VStack spacing={10}>
@@ -345,7 +366,7 @@ function TestimonialSection() {
             as="h2"
             size="xl"
             textAlign="center"
-            color={useColorModeValue("gray.800", "white")}
+            color={headingColor}
           >
             What Our Clients Say
           </Heading>
@@ -357,7 +378,7 @@ function TestimonialSection() {
                 p={8}
                 borderRadius="lg"
                 boxShadow="md"
-                bg={useColorModeValue("gray.50", "rochester.gray")}
+                bg={cardBgColor}
                 position="relative"
                 borderTopWidth="4px"
                 borderTopColor="primary.500"
@@ -368,21 +389,21 @@ function TestimonialSection() {
                   top={-4}
                   left={8}
                   color="primary.500"
-                  bg={useColorModeValue("white", "rochester.black")}
+                  bg={quoteSymbolBgColor}
                   p={2}
                   borderRadius="full"
                   fontWeight="bold"
                 >
-                  "
+                  &quot;
                 </Text>
-                <Text mb={6} color={useColorModeValue("gray.600", "gray.300")}>
+                <Text mb={6} color={textColor}>
                   {testimonial.quote}
                 </Text>
                 <Box>
-                  <Text fontWeight="bold" color={useColorModeValue("gray.800", "white")}>
+                  <Text fontWeight="bold" color={authorColor}>
                     {testimonial.author}
                   </Text>
-                  <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
+                  <Text fontSize="sm" color={locationColor}>
                     {testimonial.location}
                   </Text>
                 </Box>

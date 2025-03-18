@@ -94,7 +94,7 @@ function HeroSection() {
             textShadow="1px 1px 2px rgba(0,0,0,0.4)"
             px={4}
           >
-            Transform your outdoor space with custom decks built to last through Rochester's seasons.
+            Transform your outdoor space with custom decks built to last through Rochester&apos;s seasons.
             Expert craftsmanship, quality materials, and local expertise.
           </Text>
           
@@ -142,6 +142,11 @@ function HeroSection() {
 function FeaturesSection() {
   const bgColor = useColorModeValue("white", "rochester.black");
   const borderColor = useColorModeValue("gray.200", "rochester.gray");
+  const headingColor = useColorModeValue("gray.700", "white"); 
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const featureBgColor = useColorModeValue("gray.50", "rochester.gray");
+  const featureHeadingColor = useColorModeValue("gray.700", "white");
+  const featureTextColor = useColorModeValue("gray.600", "gray.300");
   
   const features = [
     {
@@ -175,16 +180,16 @@ function FeaturesSection() {
               as="h2"
               size="xl"
               fontWeight="bold"
-              color={useColorModeValue("gray.700", "white")}
+              color={headingColor}
             >
               Why Choose Rochester Deck Pros?
             </Heading>
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
               We deliver exceptional outdoor living spaces through quality materials, 
-              skilled craftsmanship, and designs tailored to Rochester's environment.
+              skilled craftsmanship, and designs tailored to Rochester&apos;s environment.
             </Text>
           </VStack>
           
@@ -193,7 +198,7 @@ function FeaturesSection() {
               <Box
                 key={index}
                 p={8}
-                bg={useColorModeValue("gray.50", "rochester.gray")}
+                bg={featureBgColor}
                 borderRadius="lg"
                 borderWidth="1px"
                 borderColor={borderColor}
@@ -222,12 +227,12 @@ function FeaturesSection() {
                   size="md"
                   fontWeight="bold"
                   mb={3}
-                  color={useColorModeValue("gray.700", "white")}
+                  color={featureHeadingColor}
                 >
                   {feature.title}
                 </Heading>
                 <Text
-                  color={useColorModeValue("gray.600", "gray.300")}
+                  color={featureTextColor}
                 >
                   {feature.text}
                 </Text>
@@ -241,8 +246,12 @@ function FeaturesSection() {
 }
 
 function AboutSection() {
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const headingColor = useColorModeValue("gray.700", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+
   return (
-    <Box py={20} bg={useColorModeValue("gray.50", "gray.900")}>
+    <Box py={20} bg={bgColor}>
       <Container maxW="container.xl">
         <Stack
           direction={{ base: "column", lg: "row" }}
@@ -284,24 +293,24 @@ function AboutSection() {
               as="h2"
               size="xl"
               fontWeight="bold"
-              color={useColorModeValue("gray.700", "white")}
+              color={headingColor}
             >
-              Rochester's Trusted Deck Builders
+              Rochester&apos;s Trusted Deck Builders
             </Heading>
             
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
-              With over 15 years of experience serving the Rochester area, we've built a reputation
+              With over 15 years of experience serving the Rochester area, we&apos;ve built a reputation
               for quality craftsmanship and exceptional customer service. Our local team understands
-              the unique challenges of building in Upstate New York's climate and we design decks
+              the unique challenges of building in Upstate New York&apos;s climate and we design decks
               that stand up to all four seasons.
             </Text>
             
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
               We take pride in using sustainable materials and eco-friendly building practices
               whenever possible. From traditional wood decks to modern composite designs, we
@@ -332,6 +341,15 @@ function AboutSection() {
 }
 
 function ServicesPreview() {
+  const bgColor = useColorModeValue("white", "rochester.black");
+  const headingColor = useColorModeValue("gray.700", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const serviceBgColor = useColorModeValue("gray.50", "rochester.gray");
+  const serviceHeadingColor = useColorModeValue("gray.700", "white");
+  const serviceTextColor = useColorModeValue("gray.600", "gray.300");
+  const buttonColor = useColorModeValue("primary.500", "primary.300");
+  const buttonBgHover = useColorModeValue("primary.50", "whiteAlpha.100");
+
   const services = [
     {
       title: "Custom Deck Design",
@@ -351,7 +369,7 @@ function ServicesPreview() {
   ];
 
   return (
-    <Box py={20} bg={useColorModeValue("white", "rochester.black")}>
+    <Box py={20} bg={bgColor}>
       <Container maxW="container.xl">
         <VStack spacing={12}>
           <VStack spacing={4} textAlign="center" maxW="800px" mx="auto">
@@ -359,13 +377,13 @@ function ServicesPreview() {
               as="h2"
               size="xl"
               fontWeight="bold"
-              color={useColorModeValue("gray.700", "white")}
+              color={headingColor}
             >
               Our Decking Services
             </Heading>
             <Text
               fontSize="lg"
-              color={useColorModeValue("gray.600", "gray.300")}
+              color={textColor}
             >
               From design to installation, we provide complete decking solutions
               tailored to your property and preferences.
@@ -377,7 +395,7 @@ function ServicesPreview() {
               <Box
                 key={index}
                 p={8}
-                bg={useColorModeValue("gray.50", "rochester.gray")}
+                bg={serviceBgColor}
                 borderRadius="lg"
                 boxShadow="lg"
                 textAlign="center"
@@ -405,12 +423,12 @@ function ServicesPreview() {
                   size="md"
                   fontWeight="bold"
                   mb={4}
-                  color={useColorModeValue("gray.700", "white")}
+                  color={serviceHeadingColor}
                 >
                   {service.title}
                 </Heading>
                 <Text
-                  color={useColorModeValue("gray.600", "gray.300")}
+                  color={serviceTextColor}
                   mb={5}
                 >
                   {service.description}
@@ -426,10 +444,10 @@ function ServicesPreview() {
             fontSize="md"
             px={10}
             variant="outline"
-            color={useColorModeValue("primary.500", "primary.300")}
-            borderColor={useColorModeValue("primary.500", "primary.300")}
+            color={buttonColor}
+            borderColor={buttonColor}
             _hover={{
-              bg: useColorModeValue("primary.50", "whiteAlpha.100"),
+              bg: buttonBgHover,
             }}
           >
             View All Services

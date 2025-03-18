@@ -145,7 +145,7 @@ export default function ContactForm() {
                   Thank you for contacting us!
                 </Heading>
                 <Text textAlign="center">
-                  We've received your message and will get back to you soon.
+                  We&apos;ve received your message and will get back to you soon.
                 </Text>
               </VStack>
             ) : (

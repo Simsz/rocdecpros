@@ -1,13 +1,14 @@
 "use client"
 
-import type { IconButtonProps, SpanProps } from "@chakra-ui/react"
-import { ClientOnly, IconButton, Skeleton, Span } from "@chakra-ui/react"
+import type { IconButtonProps } from "@chakra-ui/react"
+import { IconButton, Skeleton, Box } from "@chakra-ui/react"
 import { ThemeProvider, useTheme } from "next-themes"
 import type { ThemeProviderProps } from "next-themes"
 import * as React from "react"
 import { LuMoon, LuSun } from "react-icons/lu"
 
-export interface ColorModeProviderProps extends ThemeProviderProps {}
+// Use the ThemeProviderProps with an empty object to extend it
+export type ColorModeProviderProps = ThemeProviderProps
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
   return (
@@ -45,7 +46,7 @@ export function ColorModeIcon() {
   return colorMode === "dark" ? <LuMoon /> : <LuSun />
 }
 
-interface ColorModeButtonProps extends Omit<IconButtonProps, "aria-label"> {}
+export type ColorModeButtonProps = Omit<IconButtonProps, "aria-label">
 
 export const ColorModeButton = React.forwardRef<
   HTMLButtonElement,
@@ -53,7 +54,7 @@ export const ColorModeButton = React.forwardRef<
 >(function ColorModeButton(props, ref) {
   const { toggleColorMode } = useColorMode()
   return (
-    <ClientOnly fallback={<Skeleton boxSize="8" />}>
+    <React.Suspense fallback={<Skeleton boxSize="8" />}>
       <IconButton
         onClick={toggleColorMode}
         variant="ghost"
@@ -70,19 +71,19 @@ export const ColorModeButton = React.forwardRef<
       >
         <ColorModeIcon />
       </IconButton>
-    </ClientOnly>
+    </React.Suspense>
   )
 })
 
-export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+export const LightMode = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   function LightMode(props, ref) {
     return (
-      <Span
+      <Box
         color="fg"
         display="contents"
         className="chakra-theme light"
-        colorPalette="gray"
-        colorScheme="light"
+        data-color-palette="gray"
+        data-color-scheme="light"
         ref={ref}
         {...props}
       />
@@ -90,15 +91,15 @@ export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
   },
 )
 
-export const DarkMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+export const DarkMode = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   function DarkMode(props, ref) {
     return (
-      <Span
+      <Box
         color="fg"
         display="contents"
         className="chakra-theme dark"
-        colorPalette="gray"
-        colorScheme="dark"
+        data-color-palette="gray"
+        data-color-scheme="dark"
         ref={ref}
         {...props}
       />

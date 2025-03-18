@@ -7,7 +7,6 @@ import {
   Text,
   Flex,
   Link,
-  Icon,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
@@ -54,16 +53,16 @@ export default function Footer() {
             </Text>
           </Flex>
           <Stack direction={"row"} spacing={6}>
-            <SocialButton label={"Facebook"} href={"#"}>
+            <SocialButton href={"#"}>
               <FaFacebook />
             </SocialButton>
-            <SocialButton label={"Instagram"} href={"#"}>
+            <SocialButton href={"#"}>
               <FaInstagram />
             </SocialButton>
-            <SocialButton label={"Twitter"} href={"#"}>
+            <SocialButton href={"#"}>
               <FaTwitter />
             </SocialButton>
-            <SocialButton label={"LinkedIn"} href={"#"}>
+            <SocialButton href={"#"}>
               <FaLinkedin />
             </SocialButton>
           </Stack>
@@ -135,12 +134,11 @@ export default function Footer() {
 }
 
 interface SocialButtonProps {
-  children: React.ReactNode;
-  label: string;
+  children: React.ReactElement;
   href: string;
 }
 
-const SocialButton = ({ children, label, href }: SocialButtonProps) => {
+const SocialButton = ({ children, href }: SocialButtonProps) => {
   return (
     <Link
       href={href}
@@ -163,7 +161,7 @@ const SocialButton = ({ children, label, href }: SocialButtonProps) => {
         }}
         transition="all 0.3s ease"
       >
-        <Icon as={children as any} />
+        {children}
       </Flex>
     </Link>
   );
