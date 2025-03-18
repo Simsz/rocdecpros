@@ -1,0 +1,17 @@
+name = "rochesterdeckpros"
+main = "./.cloudflare/worker.js"
+compatibility_date = "2023-01-01"
+
+[build]
+command = "npm run build"
+
+[site]
+bucket = "./.output/public"
+
+[env.production]
+name = "rochesterdeckpros-prod"
+route = "rochesterdeckpros.com/*"
+
+[env.staging]
+name = "rochesterdeckpros-staging"
+route = "staging.rochesterdeckpros.com/*" 
