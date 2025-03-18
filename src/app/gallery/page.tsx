@@ -1,309 +1,396 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  SimpleGrid,
+  VStack,
+  Image,
+  Button,
+  Flex,
+  Tag,
+  useColorModeValue,
+  AspectRatio,
+  LinkBox,
+  LinkOverlay,
+} from "@chakra-ui/react";
+import MainLayout from "@/components/MainLayout";
+import { useState } from "react";
 
-export const metadata = {
-  title: "Project Gallery | Rochester Deck Pros",
-  description: "Browse our showcase of completed deck projects in the Rochester, NY area. Get inspired for your own outdoor space transformation."
-};
-
-// Image gallery data - in a real application, this would come from a database
+// Sample gallery data - in a real implementation, you might fetch this from an API
 const galleryProjects = [
   {
     id: 1,
-    title: "Modern Composite Deck in Brighton",
-    description: "A spacious multi-level composite deck with glass railings and built-in lighting.",
-    location: "Brighton, NY",
-    category: "Composite Decks",
-    featuredImage: "/images/gallery/brighton-deck.jpg",
-    images: [
-      "/images/gallery/brighton-deck.jpg",
-      "/images/gallery/brighton-deck-2.jpg",
-      "/images/gallery/brighton-deck-3.jpg",
-    ]
+    title: "Elevated Cedar Deck",
+    location: "Pittsford, NY",
+    description: "Custom elevated cedar deck with integrated seating and pergola",
+    imageUrl: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "cedar",
+    tags: ["Elevated", "Cedar", "Pergola"]
   },
   {
     id: 2,
-    title: "Cedar Pergola and Deck",
-    description: "Natural cedar deck with a custom-built pergola and integrated seating area.",
-    location: "Pittsford, NY",
-    category: "Wood Decks",
-    featuredImage: "/images/gallery/pittsford-deck.jpg",
-    images: [
-      "/images/gallery/pittsford-deck.jpg",
-      "/images/gallery/pittsford-deck-2.jpg",
-      "/images/gallery/pittsford-deck-3.jpg",
-    ]
+    title: "Lakefront Composite Deck",
+    location: "Irondequoit, NY",
+    description: "Waterfront composite deck with glass railings for unobstructed lake views",
+    imageUrl: "https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
+    category: "composite",
+    tags: ["Waterfront", "Glass Railings", "Composite"]
   },
   {
     id: 3,
-    title: "Lakefront Deck with View",
-    description: "Waterfront composite deck with cable railings designed to maximize the lake view.",
-    location: "Irondequoit, NY",
-    category: "Waterfront Decks",
-    featuredImage: "/images/gallery/irondequoit-deck.jpg",
-    images: [
-      "/images/gallery/irondequoit-deck.jpg",
-      "/images/gallery/irondequoit-deck-2.jpg",
-      "/images/gallery/irondequoit-deck-3.jpg",
-    ]
+    title: "Multi-Level Backyard Retreat",
+    location: "Brighton, NY",
+    description: "Multiple level deck with built-in fire pit and outdoor kitchen area",
+    imageUrl: "https://images.unsplash.com/photo-1588244677579-c411d86ffe52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "multi-level",
+    tags: ["Multi-Level", "Fire Pit", "Outdoor Kitchen"]
   },
   {
     id: 4,
-    title: "Traditional Wood Deck with Fire Pit",
-    description: "Pressure-treated pine deck with a stone fire pit and custom lighting.",
+    title: "Classic Pressure-Treated Deck",
     location: "Greece, NY",
-    category: "Wood Decks",
-    featuredImage: "/images/gallery/greece-deck.jpg",
-    images: [
-      "/images/gallery/greece-deck.jpg",
-      "/images/gallery/greece-deck-2.jpg",
-      "/images/gallery/greece-deck-3.jpg",
-    ]
+    description: "Traditional pressure-treated deck with white railings and lattice skirting",
+    imageUrl: "https://images.unsplash.com/photo-1602860739945-9a61559a1ada?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "pressure-treated",
+    tags: ["Traditional", "White Railings", "Lattice"]
   },
   {
     id: 5,
-    title: "Multi-Level Entertainment Deck",
-    description: "Three-tiered composite deck with outdoor kitchen and dining area.",
-    location: "Henrietta, NY",
-    category: "Composite Decks",
-    featuredImage: "/images/gallery/henrietta-deck.jpg",
-    images: [
-      "/images/gallery/henrietta-deck.jpg",
-      "/images/gallery/henrietta-deck-2.jpg",
-      "/images/gallery/henrietta-deck-3.jpg",
-    ]
+    title: "Contemporary IPE Hardwood Deck",
+    location: "Victor, NY",
+    description: "Modern design with IPE hardwood and horizontal cable railings",
+    imageUrl: "https://images.unsplash.com/photo-1595430740785-b4c57902f25e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "hardwood",
+    tags: ["Modern", "IPE", "Cable Railings"]
   },
   {
     id: 6,
-    title: "Deck Restoration Project",
-    description: "Complete restoration of a weathered deck, including structural repairs and refinishing.",
-    location: "Webster, NY",
-    category: "Restoration",
-    featuredImage: "/images/gallery/webster-deck.jpg",
-    images: [
-      "/images/gallery/webster-deck.jpg",
-      "/images/gallery/webster-deck-2.jpg",
-      "/images/gallery/webster-deck-3.jpg",
-    ]
+    title: "Screened Porch Addition",
+    location: "Fairport, NY",
+    description: "Combination deck with custom screened porch for three-season enjoyment",
+    imageUrl: "https://images.unsplash.com/photo-1624307115141-63981dd2c8d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "screened",
+    tags: ["Screened Porch", "Three-Season", "Combination"]
   },
+  {
+    id: 7,
+    title: "Poolside Composite Deck",
+    location: "Penfield, NY",
+    description: "Slip-resistant composite decking surrounding an in-ground pool",
+    imageUrl: "https://images.unsplash.com/photo-1505004620438-e3d6a1351c5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "pool",
+    tags: ["Pool Deck", "Slip-Resistant", "Composite"]
+  },
+  {
+    id: 8,
+    title: "Redwood Entertaining Deck",
+    location: "Webster, NY",
+    description: "Large redwood deck designed for entertaining with built-in bar area",
+    imageUrl: "https://images.unsplash.com/photo-1601156510135-1bc74dc8a85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+    category: "redwood",
+    tags: ["Redwood", "Entertainment Area", "Built-in Bar"]
+  },
+  {
+    id: 9,
+    title: "Small Space Urban Deck",
+    location: "Downtown Rochester, NY",
+    description: "Compact deck designed for urban living with vertical garden elements",
+    imageUrl: "https://images.unsplash.com/photo-1531835551805-16d864c8d311?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80",
+    category: "urban",
+    tags: ["Urban", "Space-Saving", "Vertical Garden"]
+  },
+  {
+    id: 10,
+    title: "Wrap-Around Farm Deck",
+    location: "Henrietta, NY",
+    description: "Wrap-around deck for a farmhouse with integrated ramp access",
+    imageUrl: "https://images.unsplash.com/photo-1573005099734-5256fce8271a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80",
+    category: "wrap-around",
+    tags: ["Farmhouse", "Wrap-Around", "Accessibility"]
+  },
+  {
+    id: 11,
+    title: "Tiered Hillside Deck",
+    location: "Mendon, NY",
+    description: "Multi-tiered deck built on a hillside with scenic overlooks",
+    imageUrl: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "tiered",
+    tags: ["Hillside", "Tiered", "Scenic View"]
+  },
+  {
+    id: 12,
+    title: "Commercial Restaurant Deck",
+    location: "Pittsford, NY",
+    description: "Large commercial deck for restaurant outdoor seating",
+    imageUrl: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    category: "commercial",
+    tags: ["Commercial", "Restaurant", "High-Traffic"]
+  }
 ];
 
-// Categories for filtering
 const categories = [
-  "All Projects",
-  "Composite Decks", 
-  "Wood Decks", 
-  "Waterfront Decks", 
-  "Restoration"
+  { value: "all", label: "All Projects" },
+  { value: "cedar", label: "Cedar Decks" },
+  { value: "composite", label: "Composite Decks" },
+  { value: "multi-level", label: "Multi-Level Decks" },
+  { value: "pool", label: "Pool Decks" },
+  { value: "screened", label: "Screened Porches" },
+  { value: "commercial", label: "Commercial Projects" }
 ];
 
 export default function GalleryPage() {
-  // State for modal and filtering
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("All Projects");
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  // Filter projects by category
-  const filteredProjects = activeCategory === "All Projects" 
+  const filteredProjects = activeCategory === "all" 
     ? galleryProjects 
     : galleryProjects.filter(project => project.category === activeCategory);
 
-  // Open modal with project details
-  const openModal = (project) => {
-    setSelectedProject(project);
-    setCurrentImageIndex(0);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  };
+  return (
+    <MainLayout>
+      <PageHeader />
+      <CategoryFilter 
+        categories={categories} 
+        activeCategory={activeCategory} 
+        setActiveCategory={setActiveCategory} 
+      />
+      <GalleryGrid projects={filteredProjects} />
+      <TestimonialSection />
+    </MainLayout>
+  );
+}
 
-  // Close modal
-  const closeModal = () => {
-    setSelectedProject(null);
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
-  };
+function PageHeader() {
+  return (
+    <Box
+      bg={useColorModeValue("gray.100", "gray.900")}
+      py={20}
+      bgGradient={useColorModeValue(
+        "linear(to-b, white, gray.100)",
+        "linear(to-b, gray.800, rochester.black)"
+      )}
+    >
+      <Container maxW="container.xl">
+        <VStack spacing={6} textAlign="center" maxW="800px" mx="auto">
+          <Heading 
+            as="h1" 
+            size="2xl" 
+            fontWeight="bold"
+            color={useColorModeValue("gray.800", "white")}
+          >
+            Our Project Gallery
+          </Heading>
+          <Text
+            fontSize="xl"
+            color={useColorModeValue("gray.600", "gray.300")}
+          >
+            Browse our portfolio of beautiful custom decks designed and built for homeowners
+            throughout the Rochester, NY area.
+          </Text>
+        </VStack>
+      </Container>
+    </Box>
+  );
+}
 
-  // Navigate to next image in modal
-  const nextImage = () => {
-    if (!selectedProject) return;
-    const newIndex = (currentImageIndex + 1) % selectedProject.images.length;
-    setCurrentImageIndex(newIndex);
-  };
+interface CategoryFilterProps {
+  categories: { value: string; label: string }[];
+  activeCategory: string;
+  setActiveCategory: (category: string) => void;
+}
 
-  // Navigate to previous image in modal
-  const prevImage = () => {
-    if (!selectedProject) return;
-    const newIndex = (currentImageIndex - 1 + selectedProject.images.length) % selectedProject.images.length;
-    setCurrentImageIndex(newIndex);
-  };
+function CategoryFilter({ categories, activeCategory, setActiveCategory }: CategoryFilterProps) {
+  return (
+    <Box py={8} bg={useColorModeValue("white", "rochester.black")}>
+      <Container maxW="container.xl">
+        <Flex 
+          justify="center" 
+          wrap="wrap" 
+          gap={3}
+        >
+          {categories.map((category) => (
+            <Button
+              key={category.value}
+              size={{ base: "sm", md: "md" }}
+              variant={activeCategory === category.value ? "solid" : "outline"}
+              colorScheme={activeCategory === category.value ? "red" : "gray"}
+              bg={activeCategory === category.value ? "primary.500" : "transparent"}
+              onClick={() => setActiveCategory(category.value)}
+              mb={{ base: 2, md: 0 }}
+            >
+              {category.label}
+            </Button>
+          ))}
+        </Flex>
+      </Container>
+    </Box>
+  );
+}
+
+interface GalleryGridProps {
+  projects: typeof galleryProjects;
+}
+
+function GalleryGrid({ projects }: GalleryGridProps) {
+  return (
+    <Box py={12} bg={useColorModeValue("gray.50", "gray.900")}>
+      <Container maxW="container.xl">
+        {projects.length === 0 ? (
+          <Box textAlign="center" py={10}>
+            <Heading as="h3" size="lg" mb={4}>
+              No projects found
+            </Heading>
+            <Text>Please try a different category.</Text>
+          </Box>
+        ) : (
+          <SimpleGrid 
+            columns={{ base: 1, md: 2, lg: 3 }} 
+            spacing={8}
+          >
+            {projects.map((project) => (
+              <LinkBox
+                key={project.id}
+                borderRadius="lg"
+                overflow="hidden"
+                bg={useColorModeValue("white", "rochester.black")}
+                boxShadow="md"
+                transition="all 0.3s"
+                _hover={{
+                  transform: "translateY(-8px)",
+                  boxShadow: "xl",
+                }}
+              >
+                <AspectRatio ratio={4/3}>
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.title}
+                    objectFit="cover"
+                  />
+                </AspectRatio>
+                <Box p={6}>
+                  <Heading
+                    as="h3"
+                    size="md"
+                    mb={2}
+                    color={useColorModeValue("gray.800", "white")}
+                  >
+                    <LinkOverlay href="#">
+                      {project.title}
+                    </LinkOverlay>
+                  </Heading>
+                  
+                  <Text fontSize="sm" color="primary.500" fontWeight="bold" mb={3}>
+                    {project.location}
+                  </Text>
+                  
+                  <Text
+                    color={useColorModeValue("gray.600", "gray.300")}
+                    mb={4}
+                    noOfLines={2}
+                  >
+                    {project.description}
+                  </Text>
+                  
+                  <Flex wrap="wrap" gap={2}>
+                    {project.tags.map((tag) => (
+                      <Tag
+                        key={tag}
+                        size="sm"
+                        bg={useColorModeValue("gray.100", "rochester.gray")}
+                        color={useColorModeValue("gray.700", "gray.200")}
+                      >
+                        {tag}
+                      </Tag>
+                    ))}
+                  </Flex>
+                </Box>
+              </LinkBox>
+            ))}
+          </SimpleGrid>
+        )}
+      </Container>
+    </Box>
+  );
+}
+
+function TestimonialSection() {
+  const testimonials = [
+    {
+      quote: "Rochester Deck Pros transformed our backyard with a beautiful cedar deck that perfectly complements our home. Their attention to detail and craftsmanship exceeded our expectations.",
+      author: "Michael & Sarah Johnson",
+      location: "Brighton, NY"
+    },
+    {
+      quote: "We couldn't be happier with our new multi-level deck. The team was professional, reliable, and completed the project on time and on budget. It's become our favorite part of our home!",
+      author: "David Williams",
+      location: "Pittsford, NY"
+    },
+    {
+      quote: "Working with Rochester Deck Pros was a pleasure from start to finish. They were responsive to our needs, offered creative solutions for our challenging space, and delivered exceptional quality.",
+      author: "Jennifer Martinez",
+      location: "Irondequoit, NY"
+    }
+  ];
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative py-24 bg-gray-900">
-        <div className="absolute inset-0 bg-black/70 z-0">
-          <Image 
-            src="/images/gallery-hero.jpg" 
-            alt="Deck project in Rochester, NY" 
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        </div>
-        <div className="container relative z-10 text-center text-white">
-          <h1 className="heading-xl mb-6">Our <span className="text-red-600">Project Gallery</span></h1>
-          <p className="text-xl max-w-3xl mx-auto">
-            Browse our collection of completed deck projects throughout the Rochester area.
-            Get inspired for your own outdoor transformation.
-          </p>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section className="section">
-        <div className="container">
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-md transition-colors ${
-                  activeCategory === category 
-                  ? 'bg-red-600 text-white' 
-                  : 'bg-gray-100 hover:bg-gray-200'
-                }`}
+    <Box 
+      py={16} 
+      bg={useColorModeValue("white", "rochester.black")}
+    >
+      <Container maxW="container.xl">
+        <VStack spacing={10}>
+          <Heading
+            as="h2"
+            size="xl"
+            textAlign="center"
+            color={useColorModeValue("gray.800", "white")}
+          >
+            What Our Clients Say
+          </Heading>
+          
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+            {testimonials.map((testimonial, index) => (
+              <Box
+                key={index}
+                p={8}
+                borderRadius="lg"
+                boxShadow="md"
+                bg={useColorModeValue("gray.50", "rochester.gray")}
+                position="relative"
+                borderTopWidth="4px"
+                borderTopColor="primary.500"
               >
-                {category}
-              </button>
+                <Text
+                  fontSize="xl"
+                  position="absolute"
+                  top={-4}
+                  left={8}
+                  color="primary.500"
+                  bg={useColorModeValue("white", "rochester.black")}
+                  p={2}
+                  borderRadius="full"
+                  fontWeight="bold"
+                >
+                  "
+                </Text>
+                <Text mb={6} color={useColorModeValue("gray.600", "gray.300")}>
+                  {testimonial.quote}
+                </Text>
+                <Box>
+                  <Text fontWeight="bold" color={useColorModeValue("gray.800", "white")}>
+                    {testimonial.author}
+                  </Text>
+                  <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>
+                    {testimonial.location}
+                  </Text>
+                </Box>
+              </Box>
             ))}
-          </div>
-
-          {/* Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <div 
-                key={project.id} 
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-                onClick={() => openModal(project)}
-              >
-                <div className="relative h-64">
-                  <Image 
-                    src={project.featuredImage} 
-                    alt={project.title} 
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="inline-block px-3 py-1 text-xs font-semibold bg-red-600 text-white rounded-full mb-2">
-                    {project.category}
-                  </span>
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 mb-2">{project.location}</p>
-                  <p className="text-gray-700">{project.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* No Results Message */}
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <h3 className="text-2xl font-bold mb-2">No projects found</h3>
-              <p className="text-gray-600">Try selecting a different category</p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Project Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="max-w-5xl w-full bg-white rounded-lg overflow-hidden relative">
-            {/* Close Button */}
-            <button 
-              className="absolute top-4 right-4 z-10 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center"
-              onClick={closeModal}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Image */}
-            <div className="relative h-[60vh]">
-              <Image 
-                src={selectedProject.images[currentImageIndex]} 
-                alt={selectedProject.title} 
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-              
-              {/* Navigation Arrows */}
-              <button 
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prevImage();
-                }}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button 
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nextImage();
-                }}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-              
-              {/* Image Counter */}
-              <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                {currentImageIndex + 1} / {selectedProject.images.length}
-              </div>
-            </div>
-            
-            {/* Project Info */}
-            <div className="p-6">
-              <span className="inline-block px-3 py-1 text-xs font-semibold bg-red-600 text-white rounded-full mb-2">
-                {selectedProject.category}
-              </span>
-              <h3 className="text-2xl font-bold mb-2">{selectedProject.title}</h3>
-              <p className="text-gray-600 mb-4">{selectedProject.location}</p>
-              <p className="text-gray-700 mb-6">{selectedProject.description}</p>
-              <div className="flex justify-end">
-                <Link href="#contact" onClick={closeModal} className="btn-primary">
-                  Get a Similar Deck
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* CTA Section */}
-      <section className="section bg-gray-900 text-white">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="heading-lg mb-6">Ready to Transform Your Outdoor Space?</h2>
-            <p className="text-xl mb-8">
-              Contact us today to discuss your project and receive a free estimate.
-            </p>
-            <Link href="#contact" className="btn-primary">
-              Get a Free Quote
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
+          </SimpleGrid>
+        </VStack>
+      </Container>
+    </Box>
   );
 } 

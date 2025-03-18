@@ -1,25 +1,29 @@
 # Rochester Deck Pros Website
 
-A professional website for Rochester Deck Pros, a deck building and maintenance company based in Rochester, NY. This website is built with Next.js and TypeScript, and is designed to be deployed to Cloudflare Workers.
-
-## Features
-
-- Fast, responsive design using Tailwind CSS
-- Modern, clean UI with Rochester, NY theming
-- Optimized for Cloudflare Workers deployment
-- Three main pages: Home, Services, and Gallery
-- Mobile-friendly navigation
-- Rochester-themed content and styling with black/red color scheme
+A modern, responsive website for Rochester Deck Pros, a premium deck building company based in Rochester, NY.
 
 ## Tech Stack
 
-- **Framework**: Next.js 14+ with App Router
+- **Framework**: Next.js 15
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **UI Library**: Chakra UI
+- **Styling**: Emotion
+- **Animation**: Framer Motion
+- **Icons**: React Icons
 - **Deployment**: Cloudflare Workers
-- **Image Optimization**: Next.js Image component (configured for Cloudflare)
 
-## Getting Started
+## Features
+
+- Modern, mobile-responsive design
+- Dark and light mode support
+- Three main pages:
+  - Home page with hero section, features, about us, and services preview
+  - Services page with detailed service descriptions, process, and FAQs
+  - Gallery page with project showcase and filtering by category
+- Contact form component on every page
+- Custom black and red theming that highlights Rochester aesthetic
+
+## Local Development
 
 ### Prerequisites
 
@@ -28,81 +32,78 @@ A professional website for Rochester Deck Pros, a deck building and maintenance 
 
 ### Installation
 
-1. Clone the repository:
+1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/rochesterdeckpros.git
-   cd rochesterdeckpros
+   git clone https://github.com/Simsz/rocdecpros.git
+   cd rocdecpros
    ```
 
-2. Install dependencies:
+2. Install dependencies
    ```bash
    npm install
    # or
    yarn install
    ```
 
-3. Run the development server:
+3. Start the development server
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) to view the site in your browser.
+4. Open [http://localhost:3001](http://localhost:3001) with your browser to see the result
 
-## Deploying to Cloudflare Workers
+## Deployment on Cloudflare Workers
 
-1. Install Wrangler CLI:
-   ```bash
-   npm install -g wrangler
-   ```
+### Setup GitHub Integration with Cloudflare
 
-2. Build the project:
-   ```bash
-   npm run build
-   # or
-   yarn build
-   ```
+1. Go to the Cloudflare Workers & Pages dashboard
+2. Click "Create application"
+3. Choose "Pages" and connect your GitHub repository
+4. Configure the build settings:
+   - Build command: `npm run build`
+   - Deploy command: `npx wrangler deploy`
+   - Build output directory: `.vercel/output/static`
+5. Deploy the project
 
-3. Configure wrangler.toml (if not already present):
-   ```toml
-   name = "rochesterdeckpros"
-   type = "javascript"
-   account_id = "your-account-id"
-   workers_dev = true
-   compatibility_date = "2023-01-01"
+### Manual Deployment
 
-   [site]
-   bucket = "./.next/static"
-   entry-point = "."
+You can also deploy manually using Wrangler:
 
-   [build]
-   command = "npm run build"
-   ```
-
-4. Deploy to Cloudflare Workers:
-   ```bash
-   wrangler deploy
-   ```
+```bash
+npm run build
+npx wrangler deploy
+```
 
 ## Project Structure
 
-- `src/app/` - Main application pages using Next.js App Router
-- `src/components/` - Reusable UI components
-- `public/` - Static assets including images
-- `src/app/globals.css` - Global styles and Tailwind utilities
+```
+.
+├── public/            # Static assets
+├── src/
+│   ├── app/           # App router pages
+│   │   ├── page.tsx   # Home page
+│   │   ├── services/  # Services page
+│   │   ├── gallery/   # Gallery page
+│   │   └── layout.tsx # Root layout
+│   ├── components/    # Reusable components
+│   │   ├── ui/        # UI components
+│   │   ├── Navbar.tsx # Navigation
+│   │   ├── Footer.tsx # Footer
+│   │   └── ...        # Other components
+│   └── theme.ts       # Chakra UI custom theme
+└── wrangler.toml      # Cloudflare Workers configuration
+```
 
-## Image Placeholder Notes
+## Contributing
 
-The website uses placeholder paths for images. In a production environment, you would:
-
-1. Replace placeholder images in the `/public/images/` directory with actual company photos
-2. Update image paths in the codebase if necessary
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin feature/my-new-feature`
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contact
-
-For any questions or support, please contact [your email or contact info].
+This project is licensed under the MIT License.

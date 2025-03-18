@@ -1,189 +1,486 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-export const metadata = {
-  title: "Our Services | Rochester Deck Pros",
-  description: "Explore our comprehensive deck building, repair, and maintenance services in Rochester, NY. From custom designs to seasonal maintenance, we've got you covered."
-};
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  SimpleGrid,
+  VStack,
+  HStack,
+  Icon,
+  Flex,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  useColorModeValue,
+  Divider,
+} from "@chakra-ui/react";
+import MainLayout from "@/components/MainLayout";
+import { MdDeck, MdDesignServices, MdConstruction } from "react-icons/md";
+import { 
+  FaTools, 
+  FaRegCheckCircle, 
+  FaRegLightbulb, 
+  FaWrench, 
+  FaLeaf,
+  FaPaintRoller,
+  FaSwimmingPool,
+  FaFire,
+  FaUmbrella,
+  FaChair
+} from "react-icons/fa";
 
 export default function ServicesPage() {
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative py-24 bg-gray-900">
-        <div className="absolute inset-0 bg-black/70 z-0">
-          <Image 
-            src="/images/services-hero.jpg" 
-            alt="Deck builder working in Rochester, NY" 
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        </div>
-        <div className="container relative z-10 text-center text-white">
-          <h1 className="heading-xl mb-6">Our <span className="text-red-600">Services</span></h1>
-          <p className="text-xl max-w-3xl mx-auto">
-            We offer a complete range of deck services designed specifically for Rochester's unique climate and lifestyle needs.
-          </p>
-        </div>
-      </section>
+    <MainLayout>
+      <PageHeader />
+      <MainServices />
+      <ProcessSection />
+      <FAQSection />
+    </MainLayout>
+  );
+}
 
-      {/* Service Categories */}
-      <section className="section">
-        <div className="container">
-          {/* Design Service */}
-          <div id="design" className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-16 border-b border-gray-200">
-            <div className="order-2 md:order-1">
-              <h2 className="heading-lg mb-6">Custom Deck Design</h2>
-              <p className="mb-4">
-                Every great deck begins with a great design. Our design services focus on creating outdoor spaces 
-                that are beautiful, functional, and perfectly suited to Rochester's climate.
-              </p>
-              <ul className="space-y-4 mb-6">
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>3D Visualization</strong> - See your deck before it's built with our advanced 3D rendering tools.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Material Selection</strong> - Choose from a variety of premium woods and composites that stand up to Rochester winters.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Custom Features</strong> - From built-in seating to pergolas and outdoor kitchens, we can design the perfect features for your lifestyle.</span>
-                </li>
-              </ul>
-              <p className="text-gray-700 italic">
-                "Our design process starts with understanding how you want to use your space. We consider Rochester's seasonal changes, 
-                the architecture of your home, and your personal style to create a design that works perfectly."
-              </p>
-            </div>
-            <div className="order-1 md:order-2 relative h-[500px] rounded-lg overflow-hidden shadow-lg">
-              <Image 
-                src="/images/deck-design.jpg" 
-                alt="Custom deck design for Rochester home" 
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-lg"
-              />
-            </div>
-          </div>
+function PageHeader() {
+  return (
+    <Box
+      bg={useColorModeValue("gray.100", "gray.900")}
+      py={20}
+      bgGradient={useColorModeValue(
+        "linear(to-b, white, gray.100)",
+        "linear(to-b, gray.800, rochester.black)"
+      )}
+    >
+      <Container maxW="container.xl">
+        <VStack spacing={6} textAlign="center" maxW="800px" mx="auto">
+          <Heading 
+            as="h1" 
+            size="2xl" 
+            fontWeight="bold"
+            color={useColorModeValue("gray.800", "white")}
+          >
+            Our Decking Services
+          </Heading>
+          <Text
+            fontSize="xl"
+            color={useColorModeValue("gray.600", "gray.300")}
+          >
+            From custom design to expert installation, we provide comprehensive deck building 
+            services tailored to Rochester's unique climate and your specific needs.
+          </Text>
+        </VStack>
+      </Container>
+    </Box>
+  );
+}
 
-          {/* Construction Service */}
-          <div id="construction" className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-16 border-b border-gray-200">
-            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-lg">
-              <Image 
-                src="/images/deck-construction.jpg" 
-                alt="Deck construction in Rochester" 
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-lg"
-              />
-            </div>
-            <div>
-              <h2 className="heading-lg mb-6">Deck Construction</h2>
-              <p className="mb-4">
-                Our skilled craftsmen bring decades of experience to every deck construction project. 
-                We build decks that last through Rochester's harsh winters and hot summers.
-              </p>
-              <ul className="space-y-4 mb-6">
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Quality Craftsmanship</strong> - Every nail, screw, and board is installed with precision and care.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Premium Materials</strong> - We use only the highest quality materials that can withstand Rochester's weather.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Proper Permits</strong> - We handle all necessary permits and inspections to ensure your deck is built to code.</span>
-                </li>
-              </ul>
-              <p className="text-gray-700 italic">
-                "We understand Rochester's unique building requirements and climate challenges. Our construction techniques 
-                are specifically designed to create decks that remain beautiful and structurally sound for decades."
-              </p>
-            </div>
-          </div>
+function MainServices() {
+  const services = [
+    {
+      id: "design",
+      title: "Custom Deck Design",
+      description: "We create personalized deck designs that complement your home's architecture and enhance your outdoor living space.",
+      icon: MdDesignServices,
+      features: [
+        "Free initial design consultation",
+        "3D rendering of your custom deck design",
+        "Material selection guidance",
+        "Budget-friendly options",
+        "Design adaptations for Rochester's climate"
+      ]
+    },
+    {
+      id: "build",
+      title: "Professional Deck Construction",
+      description: "Our skilled team builds your deck with precision and high-quality materials, ensuring durability through all seasons.",
+      icon: MdConstruction,
+      features: [
+        "Expert installation by licensed professionals",
+        "Premium grade lumber and composite options",
+        "Proper footings and foundations",
+        "Weather-resistant construction techniques",
+        "Built to local building codes and standards"
+      ]
+    },
+    {
+      id: "repair",
+      title: "Deck Repair & Restoration",
+      description: "Revitalize your existing deck with our comprehensive repair and restoration services.",
+      icon: FaWrench,
+      features: [
+        "Deck inspections and assessments",
+        "Board replacement and structural repairs",
+        "Railing and stair rebuilding",
+        "Power washing and cleaning",
+        "Staining and waterproofing services"
+      ]
+    },
+    {
+      id: "maintain",
+      title: "Maintenance & Preservation",
+      description: "Keep your deck looking beautiful and functioning properly with our ongoing maintenance programs.",
+      icon: FaTools,
+      features: [
+        "Seasonal inspections",
+        "Professional cleaning and treatments",
+        "Weather protection applications",
+        "Minor repair services",
+        "Preventative care recommendations"
+      ]
+    },
+    {
+      id: "features",
+      title: "Deck Features & Add-ons",
+      description: "Enhance your outdoor living space with custom features that add functionality and style.",
+      icon: FaRegLightbulb,
+      features: [
+        "Built-in seating and storage",
+        "Pergolas and shade structures",
+        "Outdoor lighting systems",
+        "Privacy screens and wind barriers",
+        "Integrated planters and garden boxes"
+      ]
+    },
+    {
+      id: "green",
+      title: "Eco-Friendly Decking",
+      description: "Sustainable deck options that are environmentally responsible without sacrificing quality or beauty.",
+      icon: FaLeaf,
+      features: [
+        "Sustainably sourced lumber options",
+        "Recycled composite materials",
+        "Eco-friendly stains and sealers",
+        "Energy-efficient lighting integration",
+        "Rainwater collection systems"
+      ]
+    }
+  ];
 
-          {/* Maintenance Service */}
-          <div id="maintenance" className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-16">
-            <div className="order-2 md:order-1">
-              <h2 className="heading-lg mb-6">Repair & Maintenance</h2>
-              <p className="mb-4">
-                Keep your deck looking its best with our comprehensive repair and maintenance services, 
-                designed specifically for decks in the Rochester area.
-              </p>
-              <ul className="space-y-4 mb-6">
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Annual Inspections</strong> - Spot and address problems before they become serious.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Repair Services</strong> - From board replacements to structural repairs, we can fix any deck issue.</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-2 mt-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
-                  </svg>
-                  <span><strong>Seasonal Cleaning & Staining</strong> - Protect your deck from Rochester's harsh seasonal changes.</span>
-                </li>
-              </ul>
-              <p className="text-gray-700 italic">
-                "Regular maintenance is crucial in Rochester's climate. From winter snow load damage to summer sun exposure, 
-                our maintenance programs are specifically designed to address the unique challenges faced by local decks."
-              </p>
-            </div>
-            <div className="order-1 md:order-2 relative h-[500px] rounded-lg overflow-hidden shadow-lg">
-              <Image 
-                src="/images/deck-maintenance.jpg" 
-                alt="Deck maintenance in Rochester, NY" 
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-lg"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+  const additionalFeatures = [
+    { icon: FaPaintRoller, title: "Staining & Finishing", text: "Professional application of stains, paints, and sealers that protect your deck and enhance its appearance." },
+    { icon: FaSwimmingPool, title: "Pool Decks", text: "Specialized design and construction for decks surrounding pools, with slip-resistant materials and proper drainage." },
+    { icon: FaFire, title: "Fire Pit Areas", text: "Custom design of safe, code-compliant deck areas that incorporate fire features for year-round enjoyment." },
+    { icon: FaUmbrella, title: "Shade Solutions", text: "Integration of pergolas, awnings, and other shade structures to make your deck comfortable on hot summer days." },
+    { icon: FaChair, title: "Outdoor Living Spaces", text: "Complete outdoor room concepts that blend your deck with furniture, lighting, and other amenities." },
+  ];
 
-      {/* CTA Section */}
-      <section className="section bg-gray-900 text-white">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="heading-lg mb-6">Ready to Get Started?</h2>
-            <p className="text-xl mb-8">
-              Contact us today for a free consultation and estimate on your Rochester deck project.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href="#contact" className="btn-primary">
-                Get a Free Quote
-              </Link>
-              <Link href="/gallery" className="btn-outline">
-                View Our Work
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+  const borderColor = useColorModeValue("gray.200", "rochester.gray");
+  const boxBg = useColorModeValue("white", "rochester.black");
+  const accentBg = useColorModeValue("gray.50", "rochester.gray");
+
+  return (
+    <Box py={16}>
+      <Container maxW="container.xl">
+        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
+          {services.map((service) => (
+            <Box
+              key={service.id}
+              p={8}
+              borderWidth="1px"
+              borderRadius="lg"
+              borderColor={borderColor}
+              bg={boxBg}
+              boxShadow="md"
+              transition="all 0.3s"
+              _hover={{
+                boxShadow: "lg",
+                transform: "translateY(-5px)",
+                borderColor: "primary.500",
+              }}
+            >
+              <Flex mb={6} align="flex-start">
+                <Flex
+                  mr={4}
+                  w={14}
+                  h={14}
+                  align="center"
+                  justify="center"
+                  rounded="full"
+                  bg="primary.500"
+                  color="white"
+                >
+                  <Icon as={service.icon} w={7} h={7} />
+                </Flex>
+                <Box>
+                  <Heading
+                    as="h3"
+                    size="lg"
+                    mb={2}
+                    color={useColorModeValue("gray.700", "white")}
+                  >
+                    {service.title}
+                  </Heading>
+                  <Text color={useColorModeValue("gray.600", "gray.300")}>
+                    {service.description}
+                  </Text>
+                </Box>
+              </Flex>
+
+              <Divider my={6} borderColor={borderColor} />
+
+              <VStack align="stretch" spacing={3}>
+                {service.features.map((feature, index) => (
+                  <HStack key={index} align="center" spacing={3}>
+                    <Icon as={FaRegCheckCircle} color="primary.500" />
+                    <Text color={useColorModeValue("gray.700", "gray.200")}>
+                      {feature}
+                    </Text>
+                  </HStack>
+                ))}
+              </VStack>
+            </Box>
+          ))}
+        </SimpleGrid>
+
+        <Box mt={20}>
+          <Heading
+            as="h2"
+            size="xl"
+            textAlign="center"
+            mb={12}
+            color={useColorModeValue("gray.700", "white")}
+          >
+            Additional Services
+          </Heading>
+          
+          <SimpleGrid columns={{ base: 1, md: 3, lg: 5 }} spacing={8}>
+            {additionalFeatures.map((feature, index) => (
+              <Box
+                key={index}
+                p={6}
+                bg={accentBg}
+                borderRadius="md"
+                textAlign="center"
+                boxShadow="sm"
+                transition="all 0.3s"
+                _hover={{
+                  boxShadow: "md",
+                  transform: "translateY(-3px)",
+                }}
+              >
+                <Flex
+                  mx="auto"
+                  mb={4}
+                  w={12}
+                  h={12}
+                  align="center"
+                  justify="center"
+                  rounded="full"
+                  bg="primary.500"
+                  color="white"
+                >
+                  <Icon as={feature.icon} w={6} h={6} />
+                </Flex>
+                <Heading
+                  as="h3"
+                  size="md"
+                  mb={3}
+                  color={useColorModeValue("gray.700", "white")}
+                >
+                  {feature.title}
+                </Heading>
+                <Text color={useColorModeValue("gray.600", "gray.300")}>
+                  {feature.text}
+                </Text>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </Box>
+      </Container>
+    </Box>
+  );
+}
+
+function ProcessSection() {
+  const steps = [
+    {
+      title: "Initial Consultation",
+      description: "We start with a free on-site consultation to understand your vision, assess your space, and discuss your needs and budget."
+    },
+    {
+      title: "Custom Design",
+      description: "Our designers create a personalized deck plan tailored to your preferences, property, and Rochester's climate considerations."
+    },
+    {
+      title: "Proposal & Contract",
+      description: "We provide a detailed proposal outlining the scope of work, materials, timeline, and pricing for your review and approval."
+    },
+    {
+      title: "Permits & Preparation",
+      description: "We handle all necessary permits and prepare your property for construction, ensuring everything meets local building codes."
+    },
+    {
+      title: "Expert Construction",
+      description: "Our skilled craftsmen build your deck with precision, using quality materials and attention to detail at every step."
+    },
+    {
+      title: "Final Inspection",
+      description: "We conduct a thorough inspection with you to ensure every aspect of your new deck meets our high standards and your expectations."
+    }
+  ];
+
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+
+  return (
+    <Box py={16} bg={bgColor}>
+      <Container maxW="container.xl">
+        <VStack spacing={10}>
+          <VStack spacing={4} textAlign="center" maxW="800px">
+            <Heading
+              as="h2"
+              size="xl"
+              fontWeight="bold"
+              color={useColorModeValue("gray.700", "white")}
+            >
+              Our Process
+            </Heading>
+            <Text
+              fontSize="lg"
+              color={useColorModeValue("gray.600", "gray.300")}
+            >
+              We follow a comprehensive, step-by-step approach to ensure your deck project
+              is completed efficiently, beautifully, and to the highest standards.
+            </Text>
+          </VStack>
+
+          <Box w="100%">
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+              {steps.map((step, index) => (
+                <Box
+                  key={index}
+                  p={6}
+                  bg={useColorModeValue("white", "rochester.black")}
+                  borderRadius="lg"
+                  boxShadow="md"
+                  position="relative"
+                  overflow="hidden"
+                >
+                  <Box
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    height="4px"
+                    bg="primary.500"
+                    width="100%"
+                  />
+                  <Flex align="center" mb={4}>
+                    <Flex
+                      w={10}
+                      h={10}
+                      align="center"
+                      justify="center"
+                      rounded="full"
+                      bg="primary.500"
+                      color="white"
+                      mr={4}
+                      fontWeight="bold"
+                    >
+                      {index + 1}
+                    </Flex>
+                    <Heading
+                      as="h3"
+                      size="md"
+                      color={useColorModeValue("gray.700", "white")}
+                    >
+                      {step.title}
+                    </Heading>
+                  </Flex>
+                  <Text color={useColorModeValue("gray.600", "gray.300")}>
+                    {step.description}
+                  </Text>
+                </Box>
+              ))}
+            </SimpleGrid>
+          </Box>
+        </VStack>
+      </Container>
+    </Box>
+  );
+}
+
+function FAQSection() {
+  const faqs = [
+    {
+      question: "How long does it take to build a typical deck?",
+      answer: "The timeframe varies based on the size and complexity of your project. A standard deck typically takes 1-2 weeks for construction once materials are delivered. Custom designs with special features may take longer. We'll provide a detailed timeline during the proposal stage."
+    },
+    {
+      question: "Do I need a permit to build a deck in Rochester?",
+      answer: "Yes, most deck projects in Rochester require a building permit. We handle the entire permitting process for you, including preparing and submitting all necessary documentation to ensure your deck is built to code and legally approved."
+    },
+    {
+      question: "What types of decking materials do you offer?",
+      answer: "We offer a wide range of materials including pressure-treated lumber, cedar, redwood, tropical hardwoods, and various composite decking options like Trex, TimberTech, and Azek. During our consultation, we'll discuss the pros and cons of each option based on your needs, budget, and Rochester's climate."
+    },
+    {
+      question: "How much does a new deck cost?",
+      answer: "Deck costs vary widely depending on size, materials, design complexity, and site conditions. As a general guideline, pressure-treated wood decks typically start around $30-40 per square foot, while composite decks start around $50-60 per square foot. We provide detailed, transparent pricing during the proposal stage."
+    },
+    {
+      question: "How do you prepare decks for Rochester's harsh winters?",
+      answer: "We build decks specifically engineered to withstand Rochester's freeze-thaw cycles and heavy snow loads. This includes using proper footings that extend below the frost line, weather-resistant hardware, appropriate joist spacing, and materials selected for durability in our climate. We also apply appropriate water-resistant treatments."
+    },
+    {
+      question: "Do you offer warranties on your decks?",
+      answer: "Yes, we provide a 5-year workmanship warranty on all our deck construction. Additionally, the materials we use come with manufacturer warranties that range from 10-50 years depending on the product. We'll explain all warranty details during the proposal process."
+    }
+  ];
+
+  return (
+    <Box py={16}>
+      <Container maxW="container.xl">
+        <VStack spacing={10}>
+          <VStack spacing={4} textAlign="center" maxW="800px">
+            <Heading
+              as="h2"
+              size="xl"
+              fontWeight="bold"
+              color={useColorModeValue("gray.700", "white")}
+            >
+              Frequently Asked Questions
+            </Heading>
+            <Text
+              fontSize="lg"
+              color={useColorModeValue("gray.600", "gray.300")}
+            >
+              Get answers to common questions about our deck building services and process.
+            </Text>
+          </VStack>
+
+          <Accordion allowMultiple width="100%">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                border="1px solid"
+                borderColor={useColorModeValue("gray.200", "rochester.gray")}
+                borderRadius="md"
+                mb={4}
+                bg={useColorModeValue("white", "rochester.black")}
+              >
+                <h2>
+                  <AccordionButton
+                    py={4}
+                    _expanded={{
+                      bg: useColorModeValue("gray.50", "rochester.gray"),
+                    }}
+                  >
+                    <Box flex="1" textAlign="left" fontWeight="semibold">
+                      {faq.question}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4} color={useColorModeValue("gray.600", "gray.300")}>
+                  {faq.answer}
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </VStack>
+      </Container>
+    </Box>
   );
 } 

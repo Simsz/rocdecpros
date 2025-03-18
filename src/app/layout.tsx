@@ -1,33 +1,25 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+import "@/app/globals.css";
+import { Provider } from "@/components/ui/provider";
+import theme from "@/theme";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Rochester Deck Pros | Professional Deck Building in Rochester, NY",
-  description: "Rochester Deck Pros offers top-quality deck building, repair, and maintenance services in Rochester, NY and surrounding areas.",
-  keywords: "deck builders, deck construction, Rochester NY, deck repair, deck maintenance, custom decks",
+  title: "Rochester Deck Pros | Premium Deck Building in Rochester, NY",
+  description: "Rochester Deck Pros offers high-quality deck building, design, and installation services in Rochester, NY and surrounding areas.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout(props: { children: React.ReactNode }) {
+  const { children } = props;
   return (
-    <html lang="en">
-      <body className={`${inter.variable} antialiased min-h-screen flex flex-col`}>
-        <Header />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+      </head>
+      <body>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
