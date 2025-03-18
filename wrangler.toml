@@ -16,3 +16,9 @@ bucket = "./out"
 
 # Compatibility
 compatibility_flags = ["nodejs_compat"] 
+
+[observability.logs]
+enabled = true
+
+
+
