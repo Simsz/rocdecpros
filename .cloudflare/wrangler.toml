@@ -1,0 +1,9 @@
+name = "rochesterdeckpros"
+compatibility_date = "2023-08-01"
+main = "./_worker.js"
+
+# The directory with the static assets
+site = {bucket = "./out"}
+
+# Compatibility flags
+compatibility_flags = ["nodejs_compat"] 

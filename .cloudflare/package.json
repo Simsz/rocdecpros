@@ -1,0 +1,12 @@
+{
+  "name": "rochesterdeckpros-cloudflare",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd .. && npm install && npm run build",
+    "deploy": "wrangler pages deploy ../out"
+  },
+  "dependencies": {
+    "wrangler": "^3.32.0"
+  }
+} 

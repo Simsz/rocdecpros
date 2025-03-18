@@ -2,7 +2,7 @@
   "buildConfig": {
     "staticFolder": "/out",
     "outputFolder": "/out",
-    "buildCommand": "npm run build"
+    "buildCommand": "npm install && npm run build"
   },
   "functions": {
     "**/*": {

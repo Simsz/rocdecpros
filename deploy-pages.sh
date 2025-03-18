@@ -13,8 +13,8 @@ echo "Setting up worker and routes..."
 cp _worker.js out/
 cp _routes.json out/
 
-# Deploy using Wrangler
+# Deploy using Wrangler Pages
 echo "Deploying to Cloudflare Pages..."
-npx wrangler pages deploy out
+npx wrangler pages deploy out --project-name=rochesterdeckpros
 
 echo "Deployment completed!" 
