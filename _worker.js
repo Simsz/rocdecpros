@@ -1,44 +1,45 @@
-// Worker script that works in both Workers and Pages environments
+// Cloudflare Worker for Next.js static site
 export default {
   async fetch(request, env, ctx) {
-    const url = new URL(request.url);
-    
     try {
-      // For static asset requests (files with extensions)
-      if (url.pathname.match(/\.\w+$/)) {
-        // First try with env.ASSETS if available (Pages)
-        if (env && typeof env.ASSETS !== 'undefined' && typeof env.ASSETS.fetch === 'function') {
-          return env.ASSETS.fetch(request);
-        }
-        
-        // Otherwise fetch directly (Workers)
-        return fetch(request);
-      }
+      const url = new URL(request.url);
       
-      // For page routes (no file extension)
-      // First try index.html for the route if Pages
-      if (env && typeof env.ASSETS !== 'undefined' && typeof env.ASSETS.fetch === 'function') {
-        // Try to get the HTML for the route
-        const routeUrl = new URL(url.pathname === '/' ? '/index.html' : `${url.pathname}.html`, url.origin);
-        const response = await env.ASSETS.fetch(new Request(routeUrl, request));
+      // For static sites, we should rely on __STATIC_CONTENT
+      // instead of additional service bindings
+      if (env.__STATIC_CONTENT) {
+        const response = await env.__STATIC_CONTENT.fetch(request);
         
-        if (response.status === 200) {
+        // If we found the asset, return it
+        if (response.status < 400) {
           return response;
         }
-        
-        // Fall back to index.html for client-side routing
-        return env.ASSETS.fetch(new Request(new URL('/index.html', url.origin), request));
       }
       
-      // For Workers without ASSETS binding
+      // Handle standard routes with fallback for SPA
       if (url.pathname === '/' || !url.pathname.includes('.')) {
-        return fetch(new URL('/index.html', url.origin).toString());
+        // Either serve index.html from static content or provide fallback
+        try {
+          const indexRequest = new Request(`${url.origin}/index.html`, request);
+          if (env.__STATIC_CONTENT) {
+            const indexResponse = await env.__STATIC_CONTENT.fetch(indexRequest);
+            if (indexResponse.status < 400) {
+              return indexResponse;
+            }
+          }
+        } catch (e) {
+          console.error("Error serving index:", e);
+        }
+        
+        // Fallback if index.html isn't available
+        return new Response("Welcome to Rochester Deck Pros", {
+          headers: { "Content-Type": "text/html" }
+        });
       }
       
-      return fetch(request);
-    } catch (error) {
-      console.error("Worker error:", error);
-      return new Response(`Server error: ${error.message}`, { status: 500 });
+      // 404 for all other cases
+      return new Response("Not Found", { status: 404 });
+    } catch (e) {
+      return new Response("Error: " + e.message, { status: 500 });
     }
   }
 } 
