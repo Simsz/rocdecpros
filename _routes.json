@@ -30,6 +30,26 @@
       "dest": "/index.html"
     },
     {
+      "src": "/services",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/services/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/gallery",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/gallery/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)/",
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
