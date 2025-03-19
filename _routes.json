@@ -5,7 +5,7 @@
   ],
   "exclude": [
     "/build/*",
-    "/static/*",
+    "/static/*", 
     "/_next/static/*",
     "/favicon.ico",
     "/robots.txt",
@@ -26,19 +26,11 @@
   ],
   "routes": [
     {
-      "src": "/services",
-      "dest": "/services/index.html"
-    },
-    {
-      "src": "/gallery",
-      "dest": "/gallery/index.html"
+      "src": "/",
+      "dest": "/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/",
       "dest": "/index.html"
     }
   ]

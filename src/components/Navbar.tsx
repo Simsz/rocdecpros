@@ -197,26 +197,34 @@ export default function Navbar() {
           <AnimatedBox variant="fadeInDown" duration={0.3}>
             <Stack
               bg={bgColor}
-              p={4}
+              p={6}
               display={{ md: "none" }}
               borderRadius="md"
-              spacing={4}
+              spacing={6}
+              shadow="md"
             >
               {NAV_ITEMS.map((navItem, index) => (
                 <AnimatedBox key={navItem.label} variant="fadeInLeft" delay={0.1 * index} duration={0.3}>
                   <NextLink href={navItem.href} passHref>
-                    <Link
-                      py={2}
-                      onClick={onToggle}
-                      color={pathname === navItem.href ? "primary.500" : textColor}
+                    <Box
+                      py={4}
+                      px={3}
+                      borderRadius="md"
+                      bg={pathname === navItem.href ? "rgba(237, 50, 55, 0.1)" : "transparent"}
                       _hover={{
-                        textDecoration: "none",
-                        color: "primary.500",
+                        bg: "rgba(237, 50, 55, 0.05)",
                       }}
-                      fontWeight={600}
+                      onClick={onToggle}
+                      cursor="pointer"
                     >
-                      {navItem.label}
-                    </Link>
+                      <Text
+                        fontSize="lg"
+                        fontWeight={700}
+                        color={pathname === navItem.href ? "primary.500" : textColor}
+                      >
+                        {navItem.label}
+                      </Text>
+                    </Box>
                   </NextLink>
                 </AnimatedBox>
               ))}
@@ -225,10 +233,12 @@ export default function Navbar() {
                   <Button
                     onClick={onToggle}
                     w="full"
-                    fontSize={"sm"}
-                    fontWeight={600}
+                    fontSize={"md"}
+                    fontWeight={700}
                     color={"white"}
                     bg={"primary.500"}
+                    size="lg"
+                    py={6}
                     _hover={{
                       bg: "primary.600",
                     }}

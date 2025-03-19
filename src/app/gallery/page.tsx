@@ -79,7 +79,7 @@ const galleryProjects = [
     title: "Contemporary IPE Hardwood Deck",
     location: "Victor, NY",
     description: "Modern design with IPE hardwood and horizontal cable railings",
-    imageUrl: "https://images.unsplash.com/photo-1595430740785-b4c57902f25e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1656646549569-e3ad3ff8f9f9?q=80&w=2071",
     category: "hardwood",
     tags: ["Modern", "IPE", "Cable Railings"],
     completionDate: "June 2023",
