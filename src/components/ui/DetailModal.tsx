@@ -14,9 +14,13 @@ import {
   HStack,
   VStack,
   Divider,
-  useColorModeValue
+  useColorModeValue,
+  Flex,
+  IconButton
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 // Project details type
 export interface ProjectDetails {
@@ -33,6 +37,8 @@ export interface ProjectDetails {
   features?: string[];
   projectDuration?: string;
   clientTestimonial?: string;
+  // Add support for multiple images
+  additionalImages?: string[];
 }
 
 interface DetailModalProps {
@@ -49,6 +55,24 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const bgColor = useColorModeValue("white", "rochester.black");
   const testimonialBgColor = useColorModeValue("gray.50", "gray.800");
+  
+  // State for image gallery
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Combine main image with additional images (if any)
+  const allImages = [project.imageUrl, ...(project.additionalImages || [])];
+  
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === allImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+  
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
+    );
+  };
   
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
@@ -76,15 +100,70 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
             mb={4}
             borderRadius="md"
             overflow="hidden"
+            position="relative"
           >
             <Image
-              src={project.imageUrl}
-              alt={project.title}
+              src={allImages[currentImageIndex]}
+              alt={`${project.title} - Image ${currentImageIndex + 1}`}
               w="100%"
               h="300px"
               objectFit="cover"
               borderRadius="md"
             />
+            
+            {allImages.length > 1 && (
+              <>
+                <IconButton
+                  aria-label="Previous image"
+                  icon={<ChevronLeftIcon />}
+                  position="absolute"
+                  left={2}
+                  top="50%"
+                  transform="translateY(-50%)"
+                  size="sm"
+                  bg="whiteAlpha.700"
+                  _dark={{ bg: "blackAlpha.700" }}
+                  onClick={prevImage}
+                  isRound
+                  _hover={{ bg: "whiteAlpha.900", _dark: { bg: "blackAlpha.900" } }}
+                />
+                <IconButton
+                  aria-label="Next image"
+                  icon={<ChevronRightIcon />}
+                  position="absolute"
+                  right={2}
+                  top="50%"
+                  transform="translateY(-50%)"
+                  size="sm"
+                  bg="whiteAlpha.700"
+                  _dark={{ bg: "blackAlpha.700" }}
+                  onClick={nextImage}
+                  isRound
+                  _hover={{ bg: "whiteAlpha.900", _dark: { bg: "blackAlpha.900" } }}
+                />
+                
+                {/* Image indicators */}
+                <HStack 
+                  position="absolute" 
+                  bottom={2} 
+                  left="50%" 
+                  transform="translateX(-50%)"
+                  spacing={1}
+                >
+                  {allImages.map((_, index) => (
+                    <Box
+                      key={index}
+                      w={2}
+                      h={2}
+                      borderRadius="full"
+                      bg={currentImageIndex === index ? "red.500" : "whiteAlpha.700"}
+                      cursor="pointer"
+                      onClick={() => setCurrentImageIndex(index)}
+                    />
+                  ))}
+                </HStack>
+              </>
+            )}
           </Box>
 
           <VStack align="start" spacing={4} divider={<Divider borderColor={borderColor} />}>

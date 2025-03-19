@@ -23,5 +23,23 @@
     "/*.woff2",
     "/*.ttf",
     "/*.otf"
+  ],
+  "routes": [
+    {
+      "src": "/services",
+      "dest": "/services/index.html"
+    },
+    {
+      "src": "/gallery",
+      "dest": "/gallery/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    }
   ]
 } 
