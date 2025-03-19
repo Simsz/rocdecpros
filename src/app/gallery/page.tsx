@@ -56,7 +56,7 @@ const galleryProjects = [
     title: "Multi-Level Backyard Retreat",
     location: "Brighton, NY",
     description: "Multiple level deck with built-in fire pit and outdoor kitchen area",
-    imageUrl: "https://images.unsplash.com/photo-1588244677579-c411d86ffe52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1574120583586-de8847ae992c?q=80&w=2070=2074&q=80",
     category: "multi-level",
     tags: ["Multi-Level", "Fire Pit", "Outdoor Kitchen"]
   },
@@ -65,7 +65,7 @@ const galleryProjects = [
     title: "Classic Pressure-Treated Deck",
     location: "Greece, NY",
     description: "Traditional pressure-treated deck with white railings and lattice skirting",
-    imageUrl: "https://images.unsplash.com/photo-1602860739945-9a61559a1ada?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1613544723412-b331bda01e87?q=80&w=2070",
     category: "pressure-treated",
     tags: ["Traditional", "White Railings", "Lattice"]
   },
@@ -74,7 +74,7 @@ const galleryProjects = [
     title: "Contemporary IPE Hardwood Deck",
     location: "Victor, NY",
     description: "Modern design with IPE hardwood and horizontal cable railings",
-    imageUrl: "https://images.unsplash.com/photo-1595430740785-b4c57902f25e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1656646549607-8fda5837a4ca?q=80&w=2071",
     category: "hardwood",
     tags: ["Modern", "IPE", "Cable Railings"]
   },
@@ -83,7 +83,7 @@ const galleryProjects = [
     title: "Screened Porch Addition",
     location: "Fairport, NY",
     description: "Combination deck with custom screened porch for three-season enjoyment",
-    imageUrl: "https://images.unsplash.com/photo-1624307115141-63981dd2c8d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1722248217940-7c9620b3d850?q=80&w=2070",
     category: "screened",
     tags: ["Screened Porch", "Three-Season", "Combination"]
   },
@@ -92,7 +92,7 @@ const galleryProjects = [
     title: "Poolside Composite Deck",
     location: "Penfield, NY",
     description: "Slip-resistant composite decking surrounding an in-ground pool",
-    imageUrl: "https://images.unsplash.com/photo-1505004620438-e3d6a1351c5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1596641708979-42fafb8a019b?q=80&w=2076",
     category: "pool",
     tags: ["Pool Deck", "Slip-Resistant", "Composite"]
   },
@@ -101,7 +101,7 @@ const galleryProjects = [
     title: "Redwood Entertaining Deck",
     location: "Webster, NY",
     description: "Large redwood deck designed for entertaining with built-in bar area",
-    imageUrl: "https://images.unsplash.com/photo-1601156510135-1bc74dc8a85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1722764376562-6a78c5c06f6f?q=80&w=2070",
     category: "redwood",
     tags: ["Redwood", "Entertainment Area", "Built-in Bar"]
   },
@@ -119,7 +119,7 @@ const galleryProjects = [
     title: "Wrap-Around Farm Deck",
     location: "Henrietta, NY",
     description: "Wrap-around deck for a farmhouse with integrated ramp access",
-    imageUrl: "https://images.unsplash.com/photo-1573005099734-5256fce8271a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1574120583586-de8847ae992c?q=80&w=2070",
     category: "wrap-around",
     tags: ["Farmhouse", "Wrap-Around", "Accessibility"]
   },
@@ -137,7 +137,7 @@ const galleryProjects = [
     title: "Commercial Restaurant Deck",
     location: "Pittsford, NY",
     description: "Large commercial deck for restaurant outdoor seating",
-    imageUrl: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1653866113634-28fb3bed4f30?q=80&w=2071",
     category: "commercial",
     tags: ["Commercial", "Restaurant", "High-Traffic"]
   }

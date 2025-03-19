@@ -37,9 +37,6 @@ const NAV_ITEMS = [
 
 // Create motion-enabled components
 const MotionFlex = motion(Flex);
-const MotionButton = motion(Button);
-const MotionIconButton = motion(IconButton);
-const MotionLink = motion(Link);
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -118,70 +115,81 @@ export default function Navbar() {
             direction={"row"}
             spacing={6}
           >
-            <MotionIconButton
-              onClick={onToggle}
-              icon={
-                isOpen ? (
-                  <Icon as={HiOutlineX} w={5} h={5} />
-                ) : (
-                  <Icon as={HiOutlineMenu} w={5} h={5} />
-                )
-              }
-              variant={"ghost"}
-              aria-label={"Toggle Navigation"}
-              display={{ base: "flex", md: "none" }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
-            />
+            <Box display={{ base: "flex", md: "none" }}>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+              >
+                <IconButton
+                  onClick={onToggle}
+                  icon={
+                    isOpen ? (
+                      <Icon as={HiOutlineX} w={5} h={5} />
+                    ) : (
+                      <Icon as={HiOutlineMenu} w={5} h={5} />
+                    )
+                  }
+                  variant={"ghost"}
+                  aria-label={"Toggle Navigation"}
+                />
+              </motion.div>
+            </Box>
             
             <Flex display={{ base: "none", md: "flex" }} ml={10}>
               <Stack direction={"row"} spacing={6}>
                 {NAV_ITEMS.map((navItem, index) => (
                   <NextLink key={navItem.label} href={navItem.href} passHref>
-                    <MotionLink
-                      p={2}
-                      fontSize={"sm"}
-                      fontWeight={600}
-                      color={pathname === navItem.href ? "primary.500" : textColor}
-                      _hover={{
-                        textDecoration: "none",
-                        color: "primary.500",
-                      }}
+                    <motion.div
                       custom={index}
                       variants={navItemVariants}
                       initial="hidden"
                       animate="visible"
                       whileHover={{ scale: 1.1 }}
                     >
-                      {navItem.label}
-                    </MotionLink>
+                      <Link
+                        p={2}
+                        fontSize={"sm"}
+                        fontWeight={600}
+                        color={pathname === navItem.href ? "primary.500" : textColor}
+                        _hover={{
+                          textDecoration: "none",
+                          color: "primary.500",
+                        }}
+                      >
+                        {navItem.label}
+                      </Link>
+                    </motion.div>
                   </NextLink>
                 ))}
               </Stack>
             </Flex>
             
-            <MotionButton
-              as={NextLink}
-              href="/#contact"
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"primary.500"}
-              _hover={{
-                bg: "primary.600",
-              }}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.3 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Contact Us
-            </MotionButton>
+            <NextLink href="/#contact" passHref>
+              <Box display={{ base: "none", md: "inline-flex" }}>
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.3 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    color={"white"}
+                    bg={"primary.500"}
+                    _hover={{
+                      bg: "primary.600",
+                    }}
+                  >
+                    Contact Us
+                  </Button>
+                </motion.div>
+              </Box>
+            </NextLink>
           </Stack>
         </Flex>
 
