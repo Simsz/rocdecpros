@@ -35,7 +35,12 @@ const galleryProjects = [
     materials: ["Western Red Cedar", "Stainless Steel Hardware", "Concrete Footings"],
     features: ["Integrated Bench Seating", "Pergola with Shade Cloth", "Solar Post Cap Lights"],
     projectDuration: "3 weeks",
-    clientTestimonial: "The team at Rochester Deck Pros exceeded our expectations. The cedar deck they built transformed our backyard into a beautiful outdoor living space."
+    clientTestimonial: "The team at Rochester Deck Pros exceeded our expectations. The cedar deck they built transformed our backyard into a beautiful outdoor living space.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1567164457172-a2a99a834bd5?q=80&w=2074",
+      "https://images.unsplash.com/photo-1580922110301-a666f6689be2?q=80&w=2070",
+      "https://images.unsplash.com/photo-1580894894827-76694c98acba?q=80&w=2071"
+    ]
   },
   {
     id: 2,
@@ -105,7 +110,17 @@ const galleryProjects = [
     description: "Slip-resistant composite decking surrounding an in-ground pool",
     imageUrl: "https://images.unsplash.com/photo-1596641708979-42fafb8a019b?q=80&w=2076",
     category: "pool",
-    tags: ["Pool Deck", "Slip-Resistant", "Composite"]
+    tags: ["Pool Deck", "Slip-Resistant", "Composite"],
+    completionDate: "May 2023",
+    materials: ["Trex Transcend® Composite", "Marine-Grade Hardware", "Hidden Fastener System"],
+    features: ["Built-in LED Lighting", "Slip-Resistant Surface", "Integrated Seating", "Hidden Fasteners"],
+    projectDuration: "3 weeks",
+    clientTestimonial: "Our poolside deck is not only beautiful but extremely practical. The slip-resistant surface gives us peace of mind, especially with children running around. The team was professional and completed the project on schedule.",
+    additionalImages: [
+      "https://images.unsplash.com/photo-1622083754704-f548b572fcfb?q=80&w=2070",
+      "https://images.unsplash.com/photo-1622083848244-9aedb9c4a86b?q=80&w=2070",
+      "https://images.unsplash.com/photo-1529290130-4ca3753253ae?q=80&w=2069"
+    ]
   },
   {
     id: 8,

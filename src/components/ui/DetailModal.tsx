@@ -19,7 +19,7 @@ import {
   IconButton
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 // Project details type
@@ -63,21 +63,50 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
   // Combine main image with additional images (if any)
   const allImages = [project.imageUrl, ...(project.additionalImages || [])];
   
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     setCurrentImageIndex((prevIndex) => 
       prevIndex === allImages.length - 1 ? 0 : prevIndex + 1
     );
-  };
+  }, [allImages.length]);
   
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     setCurrentImageIndex((prevIndex) => 
       prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
     );
-  };
+  }, [allImages.length]);
   
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
   };
+  
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isOpen) {
+        if (e.key === 'ArrowRight') {
+          nextImage();
+        } else if (e.key === 'ArrowLeft') {
+          prevImage();
+        } else if (e.key === 'Escape' && isFullscreen) {
+          toggleFullscreen();
+        } else if (e.key === 'f' || e.key === 'F') {
+          toggleFullscreen();
+        }
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, nextImage, prevImage, isFullscreen]);
+  
+  // Reset image index when opening a new project
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentImageIndex(0);
+    }
+  }, [isOpen, project.id]);
   
   // Fullscreen image viewer
   if (isFullscreen) {
@@ -153,6 +182,18 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
             fontWeight="medium"
           >
             {currentImageIndex + 1} / {allImages.length}
+          </Text>
+          
+          {/* Keyboard navigation hint */}
+          <Text
+            position="absolute"
+            bottom={-16}
+            left="50%"
+            transform="translateX(-50%)"
+            color="whiteAlpha.700"
+            fontSize="sm"
+          >
+            Use arrow keys to navigate • Press ESC to exit fullscreen
           </Text>
         </Box>
       </Box>
@@ -273,6 +314,21 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
                     />
                   ))}
                 </HStack>
+                
+                {/* Image counter */}
+                <Text
+                  position="absolute"
+                  bottom={2}
+                  right={10}
+                  fontSize="xs"
+                  color="white"
+                  bg="blackAlpha.600"
+                  px={2}
+                  py={1}
+                  borderRadius="md"
+                >
+                  {currentImageIndex + 1}/{allImages.length}
+                </Text>
               </>
             )}
           </Box>
