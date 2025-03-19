@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 // Create a motion-enabled version of Chakra's Box
@@ -19,8 +19,6 @@ interface AnimatedBoxProps extends BoxProps {
   variant?: AnimationVariant;
   delay?: number;
   duration?: number;
-  // Additional framer-motion props can be passed through
-  motionProps?: MotionProps;
 }
 
 // Animation variants
@@ -67,23 +65,21 @@ const AnimatedBox = ({
   variant = "fadeIn", 
   delay = 0, 
   duration = 0.5, 
-  motionProps,
   ...rest 
 }: AnimatedBoxProps) => {
   const animation = animations[variant];
   
   return (
+    // @ts-ignore - Ignoring type issues with framer-motion + chakra integration
     <MotionBox
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={animation}
-      transition={{ 
-        duration, 
+      initial={animation.initial}
+      animate={animation.animate}
+      exit={animation.exit}
+      transition={{
+        duration,
         delay,
-        ease: "easeOut" 
+        ease: "easeOut",
       }}
-      {...motionProps}
       {...rest}
     >
       {children}

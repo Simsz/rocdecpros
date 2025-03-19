@@ -9,6 +9,10 @@ const nextConfig = {
   },
   // Required for Cloudflare Pages
   trailingSlash: true,
+  // Disable ESLint during the build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig 

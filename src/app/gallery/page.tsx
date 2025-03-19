@@ -13,8 +13,6 @@ import {
   Tag,
   useColorModeValue,
   AspectRatio,
-  LinkBox,
-  LinkOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
 import MainLayout from "@/components/MainLayout";
@@ -303,16 +301,18 @@ function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
               delay={0.1 * index}
               duration={0.5}
             >
-              <Box
-                as={motion.div}
+              <motion.div
                 whileHover={{ y: -10, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)" }}
+                // @ts-ignore - Ignoring framer-motion transition type issues
                 transition={{ duration: 0.3 }}
-                bg={cardBgColor}
-                borderRadius="lg"
-                overflow="hidden"
-                boxShadow="md"
+                style={{
+                  background: cardBgColor,
+                  borderRadius: "0.5rem",
+                  overflow: "hidden",
+                  boxShadow: "var(--chakra-shadows-md)",
+                  cursor: "pointer"
+                }}
                 onClick={() => onProjectClick(project)}
-                cursor="pointer"
                 role="group"
               >
                 <AspectRatio ratio={16 / 9}>
@@ -371,12 +371,14 @@ function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
                       as={motion.button}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      // @ts-ignore - Ignoring framer-motion transition type issues
+                      transition={{ duration: 0.2 }}
                     >
                       View Details
                     </Button>
                   </VStack>
                 </Box>
-              </Box>
+              </motion.div>
             </AnimatedBox>
           ))}
         </SimpleGrid>

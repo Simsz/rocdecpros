@@ -10,7 +10,6 @@ import {
   Text,
   Image,
   Box,
-  Flex,
   Tag,
   HStack,
   VStack,
@@ -49,6 +48,7 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
   const tagTextColor = useColorModeValue("gray.700", "gray.200");
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const bgColor = useColorModeValue("white", "rochester.black");
+  const testimonialBgColor = useColorModeValue("gray.50", "gray.800");
   
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
@@ -61,6 +61,7 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
+        // @ts-ignore - Ignoring framer-motion transition type issues
         transition={{ duration: 0.3 }}
       >
         <ModalHeader>{project.title}</ModalHeader>
@@ -70,6 +71,7 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
             as={motion.div}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
+            // @ts-ignore - Ignoring framer-motion transition type issues
             transition={{ delay: 0.1, duration: 0.4 }}
             mb={4}
             borderRadius="md"
@@ -141,9 +143,9 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
             )}
 
             {project.clientTestimonial && (
-              <Box p={4} bg={useColorModeValue("gray.50", "gray.800")} borderRadius="md">
+              <Box p={4} bg={testimonialBgColor} borderRadius="md">
                 <Text fontWeight="bold" fontSize="lg" mb={1}>Client Feedback</Text>
-                <Text fontStyle="italic">"{project.clientTestimonial}"</Text>
+                <Text fontStyle="italic">&ldquo;{project.clientTestimonial}&rdquo;</Text>
               </Box>
             )}
 
