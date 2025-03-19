@@ -15,9 +15,13 @@ import {
   AspectRatio,
   LinkBox,
   LinkOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import MainLayout from "@/components/MainLayout";
 import { useState } from "react";
+import AnimatedBox from "@/components/ui/AnimatedBox";
+import DetailModal, { ProjectDetails } from "@/components/ui/DetailModal";
+import { motion } from "framer-motion";
 
 // Sample gallery data - in a real implementation, you might fetch this from an API
 const galleryProjects = [
@@ -28,7 +32,12 @@ const galleryProjects = [
     description: "Custom elevated cedar deck with integrated seating and pergola",
     imageUrl: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     category: "cedar",
-    tags: ["Elevated", "Cedar", "Pergola"]
+    tags: ["Elevated", "Cedar", "Pergola"],
+    completionDate: "July 2023",
+    materials: ["Western Red Cedar", "Stainless Steel Hardware", "Concrete Footings"],
+    features: ["Integrated Bench Seating", "Pergola with Shade Cloth", "Solar Post Cap Lights"],
+    projectDuration: "3 weeks",
+    clientTestimonial: "The team at Rochester Deck Pros exceeded our expectations. The cedar deck they built transformed our backyard into a beautiful outdoor living space."
   },
   {
     id: 2,
@@ -37,7 +46,12 @@ const galleryProjects = [
     description: "Waterfront composite deck with glass railings for unobstructed lake views",
     imageUrl: "https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
     category: "composite",
-    tags: ["Waterfront", "Glass Railings", "Composite"]
+    tags: ["Waterfront", "Glass Railings", "Composite"],
+    completionDate: "August 2023",
+    materials: ["Trex Transcend Composite", "Tempered Glass Panels", "Marine-Grade Hardware"],
+    features: ["Waterproof Electrical Outlets", "Built-in LED Lighting", "Hidden Fasteners"],
+    projectDuration: "4 weeks",
+    clientTestimonial: "We wanted something durable that would withstand the lake conditions while maintaining the view. Rochester Deck Pros delivered exactly that!"
   },
   {
     id: 3,
@@ -143,21 +157,48 @@ const categories = [
 
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [selectedProject, setSelectedProject] = useState<ProjectDetails | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const filteredProjects = activeCategory === "all" 
     ? galleryProjects 
     : galleryProjects.filter(project => project.category === activeCategory);
+    
+  const handleProjectClick = (project: ProjectDetails) => {
+    setSelectedProject(project);
+    onOpen();
+  };
 
   return (
     <MainLayout>
-      <PageHeader />
-      <CategoryFilter 
-        categories={categories} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
+      <AnimatedBox variant="fadeIn" duration={0.8}>
+        <PageHeader />
+      </AnimatedBox>
+      
+      <AnimatedBox variant="fadeInUp" delay={0.2} duration={0.6}>
+        <CategoryFilter 
+          categories={categories} 
+          activeCategory={activeCategory} 
+          setActiveCategory={setActiveCategory} 
+        />
+      </AnimatedBox>
+      
+      <GalleryGrid 
+        projects={filteredProjects} 
+        onProjectClick={handleProjectClick} 
       />
-      <GalleryGrid projects={filteredProjects} />
-      <TestimonialSection />
+      
+      <AnimatedBox variant="fadeInUp" delay={0.4} duration={0.7}>
+        <TestimonialSection />
+      </AnimatedBox>
+      
+      {selectedProject && (
+        <DetailModal 
+          isOpen={isOpen} 
+          onClose={onClose} 
+          project={selectedProject} 
+        />
+      )}
     </MainLayout>
   );
 }
@@ -237,9 +278,10 @@ function CategoryFilter({ categories, activeCategory, setActiveCategory }: Categ
 
 interface GalleryGridProps {
   projects: typeof galleryProjects;
+  onProjectClick: (project: ProjectDetails) => void;
 }
 
-function GalleryGrid({ projects }: GalleryGridProps) {
+function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const cardBgColor = useColorModeValue("white", "rochester.black");
   const headingColor = useColorModeValue("gray.800", "white");
@@ -250,79 +292,94 @@ function GalleryGrid({ projects }: GalleryGridProps) {
   return (
     <Box py={12} bg={bgColor}>
       <Container maxW="container.xl">
-        {projects.length === 0 ? (
-          <Box textAlign="center" py={10}>
-            <Heading as="h3" size="lg" mb={4}>
-              No projects found
-            </Heading>
-            <Text>Please try a different category.</Text>
-          </Box>
-        ) : (
-          <SimpleGrid 
-            columns={{ base: 1, md: 2, lg: 3 }} 
-            spacing={8}
-          >
-            {projects.map((project) => (
-              <LinkBox
-                key={project.id}
+        <SimpleGrid 
+          columns={{ base: 1, sm: 2, md: 3 }} 
+          spacing={8}
+        >
+          {projects.map((project, index) => (
+            <AnimatedBox 
+              key={project.id}
+              variant="fadeInUp"
+              delay={0.1 * index}
+              duration={0.5}
+            >
+              <Box
+                as={motion.div}
+                whileHover={{ y: -10, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)" }}
+                transition={{ duration: 0.3 }}
+                bg={cardBgColor}
                 borderRadius="lg"
                 overflow="hidden"
-                bg={cardBgColor}
                 boxShadow="md"
-                transition="all 0.3s"
-                _hover={{
-                  transform: "translateY(-8px)",
-                  boxShadow: "xl",
-                }}
+                onClick={() => onProjectClick(project)}
+                cursor="pointer"
+                role="group"
               >
-                <AspectRatio ratio={4/3}>
-                  <Image
-                    src={project.imageUrl}
+                <AspectRatio ratio={16 / 9}>
+                  <Image 
+                    src={project.imageUrl} 
                     alt={project.title}
                     objectFit="cover"
+                    transition="transform 0.3s ease"
+                    _groupHover={{ transform: "scale(1.05)" }}
                   />
                 </AspectRatio>
+                
                 <Box p={6}>
-                  <Heading
-                    as="h3"
-                    size="md"
-                    mb={2}
-                    color={headingColor}
-                  >
-                    <LinkOverlay href="#">
+                  <VStack align="start" spacing={3}>
+                    <Heading 
+                      as="h3" 
+                      size="md"
+                      color={headingColor}
+                    >
                       {project.title}
-                    </LinkOverlay>
-                  </Heading>
-                  
-                  <Text fontSize="sm" color="primary.500" fontWeight="bold" mb={3}>
-                    {project.location}
-                  </Text>
-                  
-                  <Text
-                    color={textColor}
-                    mb={4}
-                    noOfLines={2}
-                  >
-                    {project.description}
-                  </Text>
-                  
-                  <Flex wrap="wrap" gap={2}>
-                    {project.tags.map((tag) => (
-                      <Tag
-                        key={tag}
-                        size="sm"
-                        bg={tagBgColor}
-                        color={tagTextColor}
-                      >
-                        {tag}
-                      </Tag>
-                    ))}
-                  </Flex>
+                    </Heading>
+                    
+                    <Text
+                      fontSize="sm"
+                      color={textColor}
+                    >
+                      {project.location}
+                    </Text>
+                    
+                    <Text
+                      fontSize="md"
+                      color={textColor}
+                      noOfLines={2}
+                    >
+                      {project.description}
+                    </Text>
+                    
+                    <Flex flexWrap="wrap" gap={2} mt={2}>
+                      {project.tags.slice(0, 3).map((tag, index) => (
+                        <Tag
+                          key={index}
+                          size="sm"
+                          bg={tagBgColor}
+                          color={tagTextColor}
+                        >
+                          {tag}
+                        </Tag>
+                      ))}
+                    </Flex>
+                    
+                    <Button 
+                      mt={2} 
+                      size="sm" 
+                      variant="outline"
+                      colorScheme="red"
+                      as={motion.button}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      View Details
+                    </Button>
+                  </VStack>
                 </Box>
-              </LinkBox>
-            ))}
-          </SimpleGrid>
-        )}
+              </Box>
+            </AnimatedBox>
+          ))}
+        </SimpleGrid>
       </Container>
     </Box>
   );

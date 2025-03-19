@@ -17,6 +17,8 @@ import {
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import AnimatedBox from "./ui/AnimatedBox";
 
 const NAV_ITEMS = [
   {
@@ -33,6 +35,12 @@ const NAV_ITEMS = [
   },
 ];
 
+// Create motion-enabled components
+const MotionFlex = motion(Flex);
+const MotionButton = motion(Button);
+const MotionIconButton = motion(IconButton);
+const MotionLink = motion(Link);
+
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const pathname = usePathname();
@@ -40,6 +48,19 @@ export default function Navbar() {
   const bgColor = useColorModeValue("white", "rochester.black");
   const textColor = useColorModeValue("gray.800", "white");
   const borderColor = useColorModeValue("gray.200", "rochester.gray");
+
+  // Staggered animation for nav items
+  const navItemVariants = {
+    hidden: { opacity: 0, y: -5 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.1 + i * 0.1,
+        duration: 0.3,
+      },
+    }),
+  };
 
   return (
     <Box
@@ -61,10 +82,13 @@ export default function Navbar() {
           align={"center"}
           justify={"space-between"}
         >
-          <Flex
+          <MotionFlex
             flex={{ base: 1 }}
             justify={"flex-start"}
             align={"center"}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
           >
             <NextLink href="/" passHref>
               <Flex align="center" cursor="pointer">
@@ -86,7 +110,7 @@ export default function Navbar() {
                 </Text>
               </Flex>
             </NextLink>
-          </Flex>
+          </MotionFlex>
 
           <Stack
             flex={{ base: 1, md: 0 }}
@@ -94,7 +118,7 @@ export default function Navbar() {
             direction={"row"}
             spacing={6}
           >
-            <IconButton
+            <MotionIconButton
               onClick={onToggle}
               icon={
                 isOpen ? (
@@ -106,13 +130,18 @@ export default function Navbar() {
               variant={"ghost"}
               aria-label={"Toggle Navigation"}
               display={{ base: "flex", md: "none" }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
             />
             
             <Flex display={{ base: "none", md: "flex" }} ml={10}>
               <Stack direction={"row"} spacing={6}>
-                {NAV_ITEMS.map((navItem) => (
+                {NAV_ITEMS.map((navItem, index) => (
                   <NextLink key={navItem.label} href={navItem.href} passHref>
-                    <Link
+                    <MotionLink
                       p={2}
                       fontSize={"sm"}
                       fontWeight={600}
@@ -121,15 +150,20 @@ export default function Navbar() {
                         textDecoration: "none",
                         color: "primary.500",
                       }}
+                      custom={index}
+                      variants={navItemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      whileHover={{ scale: 1.1 }}
                     >
                       {navItem.label}
-                    </Link>
+                    </MotionLink>
                   </NextLink>
                 ))}
               </Stack>
             </Flex>
             
-            <Button
+            <MotionButton
               as={NextLink}
               href="/#contact"
               display={{ base: "none", md: "inline-flex" }}
@@ -140,52 +174,63 @@ export default function Navbar() {
               _hover={{
                 bg: "primary.600",
               }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Contact Us
-            </Button>
+            </MotionButton>
           </Stack>
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
-          <Stack
-            bg={bgColor}
-            p={4}
-            display={{ md: "none" }}
-            borderRadius="md"
-            spacing={4}
-          >
-            {NAV_ITEMS.map((navItem) => (
-              <NextLink key={navItem.label} href={navItem.href} passHref>
-                <Link
-                  py={2}
-                  onClick={onToggle}
-                  color={pathname === navItem.href ? "primary.500" : textColor}
-                  _hover={{
-                    textDecoration: "none",
-                    color: "primary.500",
-                  }}
-                  fontWeight={600}
-                >
-                  {navItem.label}
-                </Link>
-              </NextLink>
-            ))}
-            <NextLink href="/#contact" passHref>
-              <Button
-                onClick={onToggle}
-                w="full"
-                fontSize={"sm"}
-                fontWeight={600}
-                color={"white"}
-                bg={"primary.500"}
-                _hover={{
-                  bg: "primary.600",
-                }}
-              >
-                Contact Us
-              </Button>
-            </NextLink>
-          </Stack>
+          <AnimatedBox variant="fadeInDown" duration={0.3}>
+            <Stack
+              bg={bgColor}
+              p={4}
+              display={{ md: "none" }}
+              borderRadius="md"
+              spacing={4}
+            >
+              {NAV_ITEMS.map((navItem, index) => (
+                <AnimatedBox key={navItem.label} variant="fadeInLeft" delay={0.1 * index} duration={0.3}>
+                  <NextLink href={navItem.href} passHref>
+                    <Link
+                      py={2}
+                      onClick={onToggle}
+                      color={pathname === navItem.href ? "primary.500" : textColor}
+                      _hover={{
+                        textDecoration: "none",
+                        color: "primary.500",
+                      }}
+                      fontWeight={600}
+                    >
+                      {navItem.label}
+                    </Link>
+                  </NextLink>
+                </AnimatedBox>
+              ))}
+              <AnimatedBox variant="fadeInUp" delay={0.3} duration={0.3}>
+                <NextLink href="/#contact" passHref>
+                  <Button
+                    onClick={onToggle}
+                    w="full"
+                    fontSize={"sm"}
+                    fontWeight={600}
+                    color={"white"}
+                    bg={"primary.500"}
+                    _hover={{
+                      bg: "primary.600",
+                    }}
+                  >
+                    Contact Us
+                  </Button>
+                </NextLink>
+              </AnimatedBox>
+            </Stack>
+          </AnimatedBox>
         </Collapse>
       </Container>
     </Box>
