@@ -2,12 +2,13 @@ name = "rochesterdeckpros"
 main = "./_worker.js"
 compatibility_date = "2023-08-01"
 
-# The site will be deployed to rochesterdeckpros.web-66a.workers.dev by default
+# Keep workers.dev domain as a backup
 workers_dev = true
 
-# You can override these in the Cloudflare dashboard
+# Configure custom domains - rochesterdeckpros.com as main domain
 routes = [
-  { pattern = "rochesterdeckpros.web-66a.workers.dev", custom_domain = true }
+  { pattern = "rochesterdeckpros.com/*", zone_name = "rochesterdeckpros.com" },
+  { pattern = "www.rochesterdeckpros.com/*", zone_name = "rochesterdeckpros.com" }
 ]
 
 # This configures the static assets that will be served by the worker
