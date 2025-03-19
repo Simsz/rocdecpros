@@ -14,8 +14,12 @@ routes = [
 [site]
 bucket = "./out"
 
-# Compatibility
-compatibility_flags = ["nodejs_compat"] 
+# Properly define the ASSETS binding
+[vars]
+ENVIRONMENT = "production"
+
+# Compatibility flags
+compatibility_flags = ["nodejs_compat"]
 
 [observability.logs]
 enabled = true
