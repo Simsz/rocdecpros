@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 // Project details type
 export interface ProjectDetails {
@@ -58,6 +58,7 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
   
   // State for image gallery
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   // Combine main image with additional images (if any)
   const allImages = [project.imageUrl, ...(project.additionalImages || [])];
@@ -73,6 +74,90 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
       prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
     );
   };
+  
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+  
+  // Fullscreen image viewer
+  if (isFullscreen) {
+    return (
+      <Box
+        position="fixed"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        bg="rgba(0, 0, 0, 0.9)"
+        zIndex="9999"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <IconButton
+          aria-label="Close fullscreen"
+          icon={<CloseIcon />}
+          position="absolute"
+          top={4}
+          right={4}
+          size="md"
+          colorScheme="whiteAlpha"
+          onClick={toggleFullscreen}
+          zIndex="1"
+          isRound
+        />
+        
+        <Box position="relative" width="90%" height="90%">
+          <Image
+            src={allImages[currentImageIndex]}
+            alt={`${project.title} - Image ${currentImageIndex + 1}`}
+            maxH="90vh"
+            maxW="90vw"
+            objectFit="contain"
+            margin="0 auto"
+          />
+          
+          <IconButton
+            aria-label="Previous image"
+            icon={<ChevronLeftIcon boxSize={8} />}
+            position="absolute"
+            left={-20}
+            top="50%"
+            transform="translateY(-50%)"
+            size="lg"
+            colorScheme="whiteAlpha"
+            onClick={prevImage}
+            isRound
+          />
+          
+          <IconButton
+            aria-label="Next image"
+            icon={<ChevronRightIcon boxSize={8} />}
+            position="absolute"
+            right={-20}
+            top="50%"
+            transform="translateY(-50%)"
+            size="lg"
+            colorScheme="whiteAlpha"
+            onClick={nextImage}
+            isRound
+          />
+          
+          {/* Image counter */}
+          <Text
+            position="absolute"
+            bottom={-10}
+            left="50%"
+            transform="translateX(-50%)"
+            color="white"
+            fontWeight="medium"
+          >
+            {currentImageIndex + 1} / {allImages.length}
+          </Text>
+        </Box>
+      </Box>
+    );
+  }
   
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
@@ -109,6 +194,8 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
               h="300px"
               objectFit="cover"
               borderRadius="md"
+              cursor="zoom-in"
+              onClick={toggleFullscreen}
             />
             
             {allImages.length > 1 && (
@@ -123,7 +210,10 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
                   size="sm"
                   bg="whiteAlpha.700"
                   _dark={{ bg: "blackAlpha.700" }}
-                  onClick={prevImage}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prevImage();
+                  }}
                   isRound
                   _hover={{ bg: "whiteAlpha.900", _dark: { bg: "blackAlpha.900" } }}
                 />
@@ -137,7 +227,25 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
                   size="sm"
                   bg="whiteAlpha.700"
                   _dark={{ bg: "blackAlpha.700" }}
-                  onClick={nextImage}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextImage();
+                  }}
+                  isRound
+                  _hover={{ bg: "whiteAlpha.900", _dark: { bg: "blackAlpha.900" } }}
+                />
+                
+                {/* Fullscreen button */}
+                <IconButton
+                  aria-label="View fullscreen"
+                  icon={<ExternalLinkIcon />}
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  size="sm"
+                  bg="whiteAlpha.700"
+                  _dark={{ bg: "blackAlpha.700" }}
+                  onClick={toggleFullscreen}
                   isRound
                   _hover={{ bg: "whiteAlpha.900", _dark: { bg: "blackAlpha.900" } }}
                 />
@@ -158,7 +266,10 @@ const DetailModal = ({ isOpen, onClose, project }: DetailModalProps) => {
                       borderRadius="full"
                       bg={currentImageIndex === index ? "red.500" : "whiteAlpha.700"}
                       cursor="pointer"
-                      onClick={() => setCurrentImageIndex(index)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentImageIndex(index);
+                      }}
                     />
                   ))}
                 </HStack>
