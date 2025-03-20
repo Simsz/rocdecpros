@@ -1,9 +1,9 @@
 [build]
-command = "npm run build:pages"
+command = "./build.sh"
 publishDirectory = ".vercel/output/static"
 
 [build.environment]
-NODE_VERSION = "18"
+NODE_VERSION = "18.18.0"
 
 [site]
 bucket = ".vercel/output/static"
