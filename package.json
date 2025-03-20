@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "next build && rm -f out/_worker.js && cp _worker.js _routes.json out/",
+    "build": "next build && rm -f out/_worker.js && cp _worker.js out/",
     "build:pages": "npm install && npx @cloudflare/next-on-pages",
     "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
     "pages:deploy": "npm install && npx @cloudflare/next-on-pages@latest && npx wrangler pages deploy .vercel/output/static",
