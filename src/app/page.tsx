@@ -18,6 +18,7 @@ import { FaTools, FaUserCheck, FaAward, FaShieldAlt } from "react-icons/fa";
 import { MdDeck } from "react-icons/md";
 import Link from "next/link";
 import MainLayout from "@/components/MainLayout";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   return (
@@ -31,12 +32,106 @@ export default function Home() {
 }
 
 function HeroSection() {
+  const [currentVideo, setCurrentVideo] = useState(1);
+  const video1Ref = useRef<HTMLVideoElement>(null);
+  const video2Ref = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Set initial value
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
+  // Function to handle connection quality
+  useEffect(() => {
+    const connection = (navigator as any).connection;
+    
+    // If we can detect connection type and it's slow, don't autoplay video
+    if (connection && 
+        (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g')) {
+      setIsVideoLoaded(false); // Just use the image
+    }
+  }, []);
+
+  // Handle video 1 ending
+  useEffect(() => {
+    const handleVideo1End = () => {
+      setCurrentVideo(2);
+    };
+    
+    if (video1Ref.current) {
+      // Set playback speed
+      video1Ref.current.playbackRate = 0.5;
+      
+      // Add event listener for when video ends
+      video1Ref.current.addEventListener('ended', handleVideo1End);
+      
+      // Add event listener to detect when video is loaded
+      const handleVideoLoaded = () => {
+        setIsVideoLoaded(true);
+      };
+      
+      video1Ref.current.addEventListener('loadeddata', handleVideoLoaded);
+      
+      return () => {
+        if (video1Ref.current) {
+          video1Ref.current.removeEventListener('ended', handleVideo1End);
+          video1Ref.current.removeEventListener('loadeddata', handleVideoLoaded);
+        }
+      };
+    }
+  }, []);
+
+  // Handle video 2 ending
+  useEffect(() => {
+    const handleVideo2End = () => {
+      setCurrentVideo(1);
+    };
+    
+    if (video2Ref.current) {
+      // Set playback speed
+      video2Ref.current.playbackRate = 0.5;
+      
+      // Add event listener for when video ends
+      video2Ref.current.addEventListener('ended', handleVideo2End);
+      
+      return () => {
+        if (video2Ref.current) {
+          video2Ref.current.removeEventListener('ended', handleVideo2End);
+        }
+      };
+    }
+  }, []);
+
+  // Play the appropriate video when it changes
+  useEffect(() => {
+    if (currentVideo === 1 && video1Ref.current) {
+      video1Ref.current.play().catch(err => console.error("Video play error:", err));
+    } else if (currentVideo === 2 && video2Ref.current) {
+      video2Ref.current.play().catch(err => console.error("Video play error:", err));
+    }
+  }, [currentVideo]);
+
   return (
     <Box
       position="relative"
       h={{ base: "90vh", md: "100vh" }}
       maxH="1080px"
       overflow="hidden"
+      bg="gray.900" // Fallback background color
     >
       {/* Dark overlay */}
       <Box
@@ -49,19 +144,103 @@ function HeroSection() {
         zIndex="1"
       />
       
-      {/* Background image */}
+      {/* Background video 1 */}
       <Box
         position="absolute"
         top="0"
         left="0"
         w="full"
         h="full"
-        bgImage="url('https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
-        bgSize="cover"
-        bgPosition="center"
         zIndex="0"
-        filter="brightness(0.7)"
-      />
+        display={isVideoLoaded && currentVideo === 1 ? "block" : "none"}
+      >
+        <video
+          ref={video1Ref}
+          autoPlay
+          muted
+          playsInline
+          preload={isMobile ? "metadata" : "auto"}
+          poster="https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            filter: "brightness(0.7)",
+          }}
+        >
+          {!isMobile && (
+            <source 
+              src="https://videos.pexels.com/video-files/5785039/5785039-uhd_2560_1440_30fps.mp4" 
+              type="video/mp4"
+            />
+          )}
+          
+          {isMobile && (
+            <source 
+              src="https://videos.pexels.com/video-files/5785039/5785039-hd_720p.mp4" 
+              type="video/mp4"
+            />
+          )}
+          Your browser does not support the video tag.
+        </video>
+      </Box>
+
+      {/* Background video 2 */}
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        w="full"
+        h="full"
+        zIndex="0"
+        display={isVideoLoaded && currentVideo === 2 ? "block" : "none"}
+      >
+        <video
+          ref={video2Ref}
+          muted
+          playsInline
+          preload={isMobile ? "metadata" : "auto"}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            filter: "brightness(0.7)",
+          }}
+        >
+          {!isMobile && (
+            <source 
+              src="https://videos.pexels.com/video-files/5655569/5655569-uhd_2560_1440_30fps.mp4" 
+              type="video/mp4"
+            />
+          )}
+          
+          {isMobile && (
+            <source 
+              src="https://videos.pexels.com/video-files/5655569/5655569-hd_720p.mp4" 
+              type="video/mp4"
+            />
+          )}
+          Your browser does not support the video tag.
+        </video>
+      </Box>
+      
+      {/* Fallback image for mobile and before video loads */}
+      {!isVideoLoaded && (
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          w="full"
+          h="full"
+          bgImage="url('https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
+          bgSize="cover"
+          bgPosition="center"
+          zIndex="0"
+          filter="brightness(0.7)"
+        />
+      )}
       
       {/* Content */}
       <Container

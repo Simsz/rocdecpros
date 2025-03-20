@@ -48,7 +48,7 @@ export default function Navbar() {
 
   // Staggered animation for nav items
   const navItemVariants = {
-    hidden: { opacity: 0, y: -5 },
+    hidden: { opacity: 0, y: 0 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -57,6 +57,25 @@ export default function Navbar() {
         duration: 0.3,
       },
     }),
+  };
+
+  // Building hover animation
+  const buildingHoverVariants = {
+    initial: { 
+      height: "2px", 
+      width: 0,
+      backgroundColor: "var(--chakra-colors-primary-500)",
+      bottom: 0,
+      left: "50%",
+      position: "absolute",
+    },
+    hover: { 
+      width: "100%", 
+      left: 0,
+      transition: {
+        duration: 0.3,
+      }
+    },
   };
 
   return (
@@ -114,6 +133,7 @@ export default function Navbar() {
             justify={"flex-end"}
             direction={"row"}
             spacing={6}
+            align="center"
           >
             <Box display={{ base: "flex", md: "none" }}>
               <motion.div
@@ -138,8 +158,8 @@ export default function Navbar() {
               </motion.div>
             </Box>
             
-            <Flex display={{ base: "none", md: "flex" }} ml={10}>
-              <Stack direction={"row"} spacing={6}>
+            <Flex display={{ base: "none", md: "flex" }} ml={10} align="center" height="100%">
+              <Stack direction={"row"} spacing={6} align="center">
                 {NAV_ITEMS.map((navItem, index) => (
                   <NextLink key={navItem.label} href={navItem.href} passHref>
                     <motion.div
@@ -147,19 +167,25 @@ export default function Navbar() {
                       variants={navItemVariants}
                       initial="hidden"
                       animate="visible"
-                      whileHover={{ scale: 1.1 }}
+                      style={{ position: "relative" }}
                     >
                       <Link
                         p={2}
                         fontSize={"sm"}
                         fontWeight={600}
                         color={pathname === navItem.href ? "primary.500" : textColor}
+                        position="relative"
                         _hover={{
                           textDecoration: "none",
                           color: "primary.500",
                         }}
                       >
                         {navItem.label}
+                        <motion.div
+                          initial="initial"
+                          whileHover="hover"
+                          variants={buildingHoverVariants}
+                        />
                       </Link>
                     </motion.div>
                   </NextLink>
@@ -170,10 +196,14 @@ export default function Navbar() {
             <NextLink href="/#contact" passHref>
               <Box display={{ base: "none", md: "inline-flex" }}>
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: 0 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.3 }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{
+                    boxShadow: "0 4px 8px rgba(237, 50, 55, 0.3)",
+                    y: -2,
+                    transition: { duration: 0.2 }
+                  }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Button
