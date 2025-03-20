@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# next-on-pages
+.vercel
+.cloudflare/_worker.js
+.cloudflare/worker-configuration.d.ts
+.vc-config.json

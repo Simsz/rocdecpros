@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build && rm -f out/_worker.js && cp _worker.js _routes.json out/",
-    "build:pages": "next build && rm -f out/_worker.js && cp _worker.js _routes.json out/",
+    "build:pages": "npx @cloudflare/next-on-pages",
+    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
+    "pages:deploy": "npx @cloudflare/next-on-pages@latest && npx wrangler pages deploy .vercel/output/static",
     "start": "next start",
     "lint": "next lint"
   },
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.3.0",
+    "@cloudflare/next-on-pages": "^1.13.10",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
