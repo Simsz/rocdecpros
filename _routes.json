@@ -4,8 +4,8 @@
     "/*"
   ],
   "exclude": [
-    "/build/*",
-    "/static/*", 
+    "/_next/*",
+    "/api/*",
     "/_next/static/*",
     "/favicon.ico",
     "/robots.txt",

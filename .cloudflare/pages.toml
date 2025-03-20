@@ -3,7 +3,7 @@ command = "./build.sh"
 publishDirectory = ".vercel/output/static"
 
 [build.environment]
-NODE_VERSION = "18.18.0"
+NODE_VERSION = "18.17.1"
 
 [site]
 bucket = ".vercel/output/static"

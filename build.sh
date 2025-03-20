@@ -5,6 +5,9 @@
 # Print commands for debugging
 set -ex
 
+# Remove package-lock.json first to force a fresh install
+rm -f package-lock.json
+
 # Install dependencies using npm install (not npm ci)
 npm install
 

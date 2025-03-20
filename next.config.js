@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // We need to set output to export for Cloudflare Pages
+  output: 'export',
+  // Experimental features might differ in Next.js 14, remove the ones not supported
   experimental: {
-    optimisticClientCache: true,
+    // optimisticClientCache is not in Next.js 14
   },
   images: {
     unoptimized: true,
