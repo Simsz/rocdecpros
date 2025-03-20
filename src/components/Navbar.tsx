@@ -76,6 +76,14 @@ export default function Navbar() {
         duration: 0.3,
       }
     },
+  } as any; // Type assertion to avoid framer-motion type errors
+
+  // Custom styles for links to ensure proper centering
+  const linkStyles = {
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: "100%"
   };
 
   return (
@@ -134,6 +142,7 @@ export default function Navbar() {
             direction={"row"}
             spacing={6}
             align="center"
+            height="60px"
           >
             <Box display={{ base: "flex", md: "none" }}>
               <motion.div
@@ -159,7 +168,7 @@ export default function Navbar() {
             </Box>
             
             <Flex display={{ base: "none", md: "flex" }} ml={10} align="center" height="100%">
-              <Stack direction={"row"} spacing={6} align="center">
+              <Stack direction={"row"} spacing={6} align="center" height="100%">
                 {NAV_ITEMS.map((navItem, index) => (
                   <NextLink key={navItem.label} href={navItem.href} passHref>
                     <motion.div
@@ -167,7 +176,7 @@ export default function Navbar() {
                       variants={navItemVariants}
                       initial="hidden"
                       animate="visible"
-                      style={{ position: "relative" }}
+                      style={{ position: "relative", height: "100%", display: "flex", alignItems: "center" }}
                     >
                       <Link
                         p={2}
@@ -175,6 +184,7 @@ export default function Navbar() {
                         fontWeight={600}
                         color={pathname === navItem.href ? "primary.500" : textColor}
                         position="relative"
+                        sx={linkStyles}
                         _hover={{
                           textDecoration: "none",
                           color: "primary.500",
@@ -194,7 +204,7 @@ export default function Navbar() {
             </Flex>
             
             <NextLink href="/#contact" passHref>
-              <Box display={{ base: "none", md: "inline-flex" }}>
+              <Box display={{ base: "none", md: "inline-flex" }} height="100%" alignItems="center">
                 <motion.div
                   initial={{ opacity: 0, y: 0 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -205,6 +215,7 @@ export default function Navbar() {
                     transition: { duration: 0.2 }
                   }}
                   whileTap={{ scale: 0.95 }}
+                  style={{ display: "flex", height: "100%", alignItems: "center" }}
                 >
                   <Button
                     fontSize={"sm"}
