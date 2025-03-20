@@ -52,10 +52,13 @@ cat > fixed_routes.json << 'EOL'
 }
 EOL
 
-# Copy the fixed routes file to both the root output directory and any possible worker directory
+# Copy the fixed routes file to the root output directory
 cp fixed_routes.json .vercel/output/static/_routes.json
-cp fixed_routes.json .vercel/output/static/_worker.js/_routes.json 2>/dev/null || true
-cp _worker.js .vercel/output/static/
+
+# Copy the fixed routes file to the worker directory if it exists and is a directory
+if [ -d ".vercel/output/static/_worker.js" ]; then
+  cp fixed_routes.json .vercel/output/static/_worker.js/_routes.json
+fi
 
 # Output success message
 echo "Build completed successfully!" 
