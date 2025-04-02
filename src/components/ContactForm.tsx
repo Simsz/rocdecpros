@@ -109,17 +109,17 @@ export default function ContactForm() {
               <ContactInfo
                 icon={MdPhone}
                 title="Call Us"
-                content="+1 (585) 555-1234"
+                content="+1 (585) 649-6017"
               />
               <ContactInfo
                 icon={MdEmail}
                 title="Email"
-                content="info@rochesterdeckpros.com"
+                content="hello@rochesterdeckpros.com"
               />
               <ContactInfo
                 icon={MdLocationOn}
                 title="Address"
-                content="123 Main Street, Rochester, NY 14604"
+                content="Greece, NY 14624"
               />
             </Stack>
           </VStack>
@@ -178,7 +178,7 @@ export default function ContactForm() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="(585) 555-1234"
+                      placeholder="(585) 649-6017"
                     />
                   </FormControl>
                   <FormControl isRequired>
